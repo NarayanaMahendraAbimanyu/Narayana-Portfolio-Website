@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --font-poppins: var(--font-poppins), sans-serif;
+}
+
+@layer utilities {
+  .bg-dark {
+    background-color: #010102;
+  }
+  .text-dark {
+    color: #010102;
+  }
+  .bg-light {
+    background-color: #E5E5E7;
+  }
+  .text-light {
+    color: #E5E5E7;
+  }
+  .border-dark {
+    border-color: #010102;
+  }
+}
+
+body {
+  font-family: var(--font-poppins);
+  background-color: #e3e3e5;
+  color: #010102;
+  overflow-x: hidden;
+}
