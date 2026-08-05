@@ -74,7 +74,7 @@ export default function AboutSection() {
                   initial={{ y: 30, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
+                  transition={{ duration: 1.3, delay: 0.3 }}
                   className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white mb-3"
                 >
                   About Me
@@ -85,7 +85,7 @@ export default function AboutSection() {
                     initial={{ y: 30, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
+                    transition={{ duration: 1.3, delay: 0.3 }}
                     className="text-gray-300 text-sm sm:text-base leading-relaxed font-normal text-justify"
                   >
                     Saya{" "}
@@ -99,7 +99,7 @@ export default function AboutSection() {
                     initial={{ y: 30, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
+                    transition={{ duration: 1.3, delay: 0.3 }}
                     className="text-gray-300 text-sm sm:text-base leading-relaxed font-normal text-justify"
                   >
                     Saya memiliki dasar yang baik dalam pengembangan website dan telah mengerjakan berbagai proyek website sederhana sebagai bagian dari pembelajaran di sekolah. Saya memiliki ketertarikan yang tinggi pada dunia pemrograman, senang mempelajari teknologi baru, serta terus mengembangkan kemampuan untuk menciptakan solusi digital yang bermanfaat.
@@ -112,7 +112,7 @@ export default function AboutSection() {
                   initial={{ y: 30, opacity: 0 }}
                   whileInView={{ y: 0, opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+                  transition={{ duration: 1.3, delay: 0.3 }}
                   className="text-xl sm:text-2xl font-bold text-white mb-4"
                 >
                   Education
@@ -123,7 +123,7 @@ export default function AboutSection() {
                     initial={{ y: 30, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.7 }}
+                    transition={{ duration: 1.3, delay: 0.3 }}
                     className="flex items-center gap-4"
                   >
                     <span className="bg-black text-white px-3.5 sm:px-4 py-1.5 rounded-md text-sm sm:text-base font-extrabold tracking-wide border border-white/10 shrink-0">
@@ -138,7 +138,7 @@ export default function AboutSection() {
                     initial={{ y: 30, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
+                    transition={{ duration: 1.3, delay: 0.3 }}
                     className="flex items-center gap-4"
                   >
                     <span className="bg-black text-white px-3.5 sm:px-4 py-1.5 rounded-md text-sm sm:text-base font-extrabold tracking-wide border border-white/10 shrink-0">

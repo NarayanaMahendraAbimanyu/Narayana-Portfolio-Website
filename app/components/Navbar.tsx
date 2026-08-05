@@ -1,50 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState<"home" | "portfolio">("home");
+  const pathname = usePathname();
   const [lang, setLang] = useState<"EN" | "ID">("EN");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const portfolioElement = document.getElementById("projects") || document.getElementById("portfolio");
-      if (portfolioElement) {
-        const rect = portfolioElement.getBoundingClientRect();
-        if (rect.top <= 200) {
-          setActiveSection("portfolio");
-        } else {
-          setActiveSection("home");
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToHome = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-    setActiveSection("home");
-  };
-
-  const scrollToPortfolio = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const portfolioElement = document.getElementById("projects") || document.getElementById("portfolio");
-    if (portfolioElement) {
-      portfolioElement.scrollIntoView({ behavior: "smooth" });
-    }
-    setActiveSection("portfolio");
-  };
 
   const toggleLanguage = () => {
     setLang((prev) => (prev === "EN" ? "ID" : "EN"));
   };
+
+  const isHome = pathname === "/";
+  const isPortfolio = pathname === "/portfolio";
 
   return (
     <motion.header
@@ -54,8 +25,8 @@ export default function Navbar() {
       className="fixed top-3 left-0 right-0 z-50 w-full px-3 sm:px-6 md:px-16 lg:px-24 flex justify-center"
     >
       <nav className="w-full max-w-6xl bg-[#2A2A2A] text-white px-3 sm:px-6 py-2 sm:py-3.5 rounded-xl sm:rounded-2xl flex items-center justify-between shadow-xl border border-white/10 backdrop-blur-md">
-        <button
-          onClick={scrollToHome}
+        <Link
+          href="/"
           className="flex items-center gap-1.5 sm:gap-3 cursor-pointer group focus:outline-none"
         >
           <div className="flex items-center gap-1 sm:gap-1.5">
@@ -66,33 +37,30 @@ export default function Navbar() {
           <span className="font-bold text-sm sm:text-lg md:text-xl tracking-wider text-white transition-opacity duration-300 group-hover:opacity-80">
             Narayn.
           </span>
-        </button>
+        </Link>
 
         <div className="flex items-center gap-2 sm:gap-3 md:gap-5 text-[11px] sm:text-sm md:text-base">
-          <button
-            onClick={scrollToHome}
+          <Link
+            href="/"
             className={`transition-all duration-300 hover:text-white whitespace-nowrap ${
-              activeSection === "home"
-                ? "font-bold text-white"
-                : "font-normal text-white/50"
+              isHome ? "font-bold text-white" : "font-normal text-white/50"
             }`}
           >
             HOME
-          </button>
+          </Link>
 
-          <a
-            href="#projects"
-            onClick={scrollToPortfolio}
+          <Link
+            href="/portfolio"
             className={`transition-all duration-300 hover:text-white whitespace-nowrap ${
-              activeSection === "portfolio"
-                ? "font-bold text-white"
-                : "font-normal text-white/50"
+              isPortfolio ? "font-bold text-white" : "font-normal text-white/50"
             }`}
           >
             PORTFOLIO
-          </a>
+          </Link>
 
-          <span className="hidden sm:inline text-white/40 font-light select-none">|</span>
+          <span className="hidden sm:inline text-white/40 font-light select-none">
+            |
+          </span>
 
           <button
             onClick={toggleLanguage}

@@ -231,11 +231,41 @@ export default function HeroSection() {
               rotateY,
               transformStyle: "preserve-3d",
             }}
-            className="relative w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] aspect-[4/5] rounded-2xl p-2.5 sm:p-3 border-2 border-[#010102] bg-[#010102]/5 backdrop-blur-sm cursor-pointer shadow-2xl transition-shadow duration-300"
+            className="relative w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] aspect-[4/5] p-3.5 sm:p-4 cursor-pointer"
           >
-            <div className="relative w-full h-full rounded-xl overflow-hidden border border-[#010102]/20">
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none z-20"
+              style={{ overflow: "visible" }}
+            >
+              <rect
+                x="0"
+                y="0"
+                width="100%"
+                height="100%"
+                rx="24"
+                ry="24"
+                fill="none"
+                stroke="#010102"
+                strokeWidth="2.5"
+                strokeDasharray="8 8"
+                className="animate-[dash_20s_linear_infinite]"
+              />
+            </svg>
+
+            <style jsx>{`
+              @keyframes dash {
+                to {
+                  stroke-dashoffset: -1000;
+                }
+              }
+            `}</style>
+
+            <div 
+              style={{ transform: "translateZ(20px)" }}
+              className="relative w-full h-full rounded-2xl overflow-hidden bg-[#222222] shadow-2xl"
+            >
               <Image
-                src="/foto-narayana.jpeg"
+                src="/fotonarayana.png"
                 alt="Foto Narayana Mahendra Abimanyu"
                 fill
                 priority
