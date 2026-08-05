@@ -265,7 +265,7 @@ export default function HeroSection() {
               className="relative w-full h-full rounded-2xl overflow-hidden bg-[#222222] shadow-2xl"
             >
               <Image
-                src="/fotonarayana.png"
+                src="/fotonarayana-hero.png"
                 alt="Foto Narayana Mahendra Abimanyu"
                 fill
                 priority

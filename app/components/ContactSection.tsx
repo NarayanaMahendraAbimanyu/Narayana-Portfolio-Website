@@ -5,28 +5,25 @@ import { motion, Variants } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 const containerVariants: Variants = {
-  hidden: { opacity: 0 },
+  hidden: {},
   visible: {
-    opacity: 1,
     transition: {
       staggerChildren: 0.15,
-      delayChildren: 0.1,
+      delayChildren: 0.05,
     },
   },
 };
 
-const itemVariants: Variants = {
+const textRevealVariants: Variants = {
   hidden: {
+    y: "100%",
     opacity: 0,
-    y: 35,
-    filter: "blur(8px)",
   },
   visible: {
+    y: "0%",
     opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 1,
+      duration: 2.5,
       ease: [0.16, 1, 0.3, 1],
     },
   },
@@ -42,44 +39,50 @@ export default function ContactSection() {
         viewport={{ once: true, margin: "-80px" }}
         className="max-w-5xl mx-auto w-full text-center flex flex-col items-center justify-center my-auto"
       >
-        <motion.p
-          variants={itemVariants}
-          className="text-xs sm:text-sm md:text-base font-light text-[#E5E5E7]/70 mb-3 tracking-wide"
-        >
-          Get in touch
-        </motion.p>
-
-        <motion.h2
-          variants={itemVariants}
-          className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white mb-8 sm:mb-12 leading-tight"
-        >
-          Let’s Talk
-          <br />
-          Together.
-        </motion.h2>
-
-        <motion.div variants={itemVariants} className="inline-block max-w-full overflow-hidden">
-          <a
-            href="mailto:narayanamahendraabimanyu@gmail.com"
-            className="group relative inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-xl md:text-3xl lg:text-4xl font-medium text-[#E5E5E7] hover:text-white transition-colors duration-300 pb-2 break-all sm:break-normal"
+        <div className="overflow-hidden mb-3">
+          <motion.p
+            variants={textRevealVariants}
+            className="text-xs sm:text-sm md:text-base font-light text-[#E5E5E7]/70 tracking-wide"
           >
-            <span className="relative">
-              narayanamahendraabimanyu@gmail.com
-              <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-white transition-all duration-500 ease-out group-hover:w-full" />
-            </span>
-            <ArrowUpRight className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 shrink-0 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </a>
-        </motion.div>
+            Get in touch
+          </motion.p>
+        </div>
+
+        <div className="overflow-hidden mb-8 sm:mb-12">
+          <motion.h2
+            variants={textRevealVariants}
+            className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-tight"
+          >
+            Let’s Talk
+            <br />
+            Together.
+          </motion.h2>
+        </div>
+
+        <div className="overflow-hidden inline-block max-w-full">
+          <motion.div variants={textRevealVariants}>
+            <a
+              href="mailto:narayanamahendraabimanyu@gmail.com"
+              className="group relative inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-xl md:text-3xl lg:text-4xl font-medium text-[#E5E5E7] hover:text-white transition-colors duration-300 pb-2 break-all sm:break-normal"
+            >
+              <span className="relative">
+                narayanamahendraabimanyu@gmail.com
+                <span className="absolute left-0 bottom-0 h-[2px] w-0 bg-white transition-all duration-500 ease-out group-hover:w-full" />
+              </span>
+              <ArrowUpRight className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 shrink-0 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </a>
+          </motion.div>
+        </div>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="max-w-5xl mx-auto w-full my-4 md:my-8"
-      >
-        <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-10 md:gap-16 text-xs sm:text-sm md:text-base font-normal tracking-wider text-[#E5E5E7]/70">
+      <div className="overflow-hidden max-w-5xl mx-auto w-full my-4 md:my-8">
+        <motion.div
+          initial={{ y: "100%", opacity: 0 }}
+          whileInView={{ y: "0%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-wrap items-center justify-center gap-5 sm:gap-10 md:gap-16 text-xs sm:text-sm md:text-base font-normal tracking-wider text-[#E5E5E7]/70"
+        >
           <a
             href="/cv.pdf"
             target="_blank"
@@ -112,8 +115,8 @@ export default function ContactSection() {
           >
             INSTAGRAM
           </a>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }

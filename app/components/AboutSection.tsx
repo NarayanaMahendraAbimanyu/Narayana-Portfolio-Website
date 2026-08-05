@@ -49,7 +49,7 @@ export default function AboutSection() {
 
                 <div className="relative w-full aspect-[3/4] rounded-[10px] overflow-hidden bg-black pointer-events-none mb-3 border border-white/5">
                   <Image
-                    src="/foto-narayana-sekolah.jpg"
+                    src="/fotonarayana-about.png"
                     alt="Narayana Mahendra Abimanyu"
                     fill
                     priority
