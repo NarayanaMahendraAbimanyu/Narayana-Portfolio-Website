@@ -50,13 +50,22 @@ function ToolItem({ icon, title, description, variants }: ToolItemProps) {
 
 export default function ToolsSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "start start"],
   });
 
-  const topRadius = useTransform(scrollYProgress, [0, 1], ["3rem", "0rem"]);
+  const animatedTopRadius = useTransform(scrollYProgress, [0, 1], ["3rem", "0rem"]);
+  const topRadius = isDesktop ? animatedTopRadius : "0rem";
+
+  React.useEffect(() => {
+    const checkIsDesktop = () => setIsDesktop(window.innerWidth >= 768);
+    checkIsDesktop();
+    window.addEventListener("resize", checkIsDesktop);
+    return () => window.removeEventListener("resize", checkIsDesktop);
+  }, []);
 
   const containerVariants: Variants = {
     hidden: {},
@@ -150,7 +159,7 @@ export default function ToolsSection() {
     <motion.section
       ref={sectionRef}
       style={{ borderTopLeftRadius: topRadius, borderTopRightRadius: topRadius }}
-      className="relative z-20 w-full min-h-screen bg-[#2E2E2E] flex flex-col items-center justify-center py-12 sm:py-20 md:py-24 px-4 sm:px-6 md:px-10 overflow-hidden"
+      className="relative z-20 w-full min-h-[auto] md:min-h-screen bg-[#2E2E2E] flex flex-col items-center justify-center py-12 sm:py-20 md:py-24 px-4 sm:px-6 md:px-10 overflow-hidden"
     >
       <motion.div
         variants={containerVariants}

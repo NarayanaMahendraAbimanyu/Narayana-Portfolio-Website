@@ -33,7 +33,7 @@ const projectItems: PortfolioItem[] = [
     title: "Rebuild Website Event Organizer (Pra PKL Project)",
     description: "Proyek ini merupakan bagian dari program Pra PKL yang diselenggarakan oleh sekolah. Bersama tim lintas peminatan, saya berkolaborasi dengan sebuah industri untuk membangun ulang website Event Organizer berdasarkan desain yang telah dibuat oleh tim. Dalam proyek ini, saya bertanggung jawab mengubah desain menjadi website yang responsif dan fungsional menggunakan React dan Tailwind CSS.",
     image: "/project1.png",
-    link: "https://new.ikutaja.id/",
+    link: "https://project1-url.com",
     techStack: [
       { name: "React JS", subtext: "Frontend Library", icon: <FaReact className="text-2xl sm:text-3xl text-white" /> },
       { name: "Tailwind CSS", subtext: "Utility-First CSS", icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
@@ -44,7 +44,7 @@ const projectItems: PortfolioItem[] = [
     title: "Bouquet Business Landing Page",
     description: "Saya mengembangkan website landing page untuk bisnis bouquet milik orang tua saya, dimulai dari proses perancangan antarmuka menggunakan Figma hingga implementasi menjadi website yang dapat digunakan. Proyek ini bertujuan untuk meningkatkan kehadiran bisnis secara online dengan tampilan yang modern, responsif, dan mudah digunakan oleh pelanggan.",
     image: "/project2.png",
-    link: "https://annie-mariea-bouquet.vercel.app",
+    link: "https://project2-url.com",
     techStack: [
       { name: "Next.js", subtext: "React Framework", icon: <SiNextdotjs className="text-2xl sm:text-3xl text-white" /> },
       { name: "TypeScript", subtext: "Typed JavaScript", icon: <SiTypescript className="text-2xl sm:text-3xl text-white" /> },
@@ -68,7 +68,7 @@ const projectItems: PortfolioItem[] = [
     title: "Personal Website Portfolio",
     description: "Saya merancang dan mengembangkan website portfolio pribadi untuk menampilkan profil, pengalaman, serta proyek-proyek yang pernah saya kerjakan. Proses pengembangan dimulai dengan membuat desain di Figma berdasarkan berbagai referensi, kemudian diimplementasikan menjadi website menggunakan Next.js, TypeScript, dan Tailwind CSS. Untuk meningkatkan pengalaman pengguna, saya juga memanfaatkan Framer Motion agar setiap animasi terlihat lebih halus dan interaktif.",
     image: "/project4.png",
-    link: "https://narayanamahendra.vercel.app",
+    link: "https://project4-url.com",
     techStack: [
       { name: "Next.js", subtext: "React Framework", icon: <SiNextdotjs className="text-2xl sm:text-3xl text-white" /> },
       { name: "TypeScript", subtext: "Typed JavaScript", icon: <SiTypescript className="text-2xl sm:text-3xl text-white" /> },
@@ -143,7 +143,7 @@ export default function PortfolioSection() {
   };
 
   return (
-    <section className="relative w-full min-h-screen bg-[#2E2E2E] flex flex-col items-center justify-center py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-10">
+    <section className="relative w-full min-h-fit md:min-h-screen bg-[#2E2E2E] flex flex-col items-center justify-center py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-10">
       <motion.div
         variants={containerVariants}
         initial="hidden"
