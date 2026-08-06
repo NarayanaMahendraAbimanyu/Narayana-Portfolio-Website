@@ -46,14 +46,14 @@ export default function PrincipalsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        className="hidden md:block absolute top-[20%] md:left-[25%] lg:left-[20%]"
+        className="absolute top-[6%] left-[6%] sm:top-[10%] sm:left-[10%] md:top-[20%] md:left-[25%] lg:left-[20%]"
       >
         <motion.div
           animate={{ y: [-8, 8, -8], x: [-4, 4, -4] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="w-12 h-12 sm:w-14 sm:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
+          className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
         >
-          <i className="bx bxl-github text-3xl sm:text-4xl text-black"></i>
+          <i className="bx bxl-github text-xl sm:text-2xl md:text-4xl text-black"></i>
         </motion.div>
       </motion.div>
 
@@ -63,14 +63,14 @@ export default function PrincipalsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        className="hidden md:block absolute top-[45%] md:left-[15%] lg:left-[18%]"
+        className="absolute top-[32%] left-[4%] sm:top-[38%] sm:left-[8%] md:top-[45%] md:left-[15%] lg:left-[18%]"
       >
         <motion.div
           animate={{ y: [10, -10, 10], x: [5, -5, 5] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="w-12 h-12 sm:w-14 sm:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
+          className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
         >
-          <i className="bx bxl-visual-studio text-3xl sm:text-4xl text-black"></i>
+          <i className="bx bxl-visual-studio text-xl sm:text-2xl md:text-4xl text-black"></i>
         </motion.div>
       </motion.div>
 
@@ -80,14 +80,14 @@ export default function PrincipalsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        className="hidden md:block absolute bottom-[20%] md:left-[28%] lg:left-[22%]"
+        className="absolute bottom-[10%] left-[7%] sm:bottom-[14%] sm:left-[11%] md:bottom-[20%] md:left-[28%] lg:left-[22%]"
       >
         <motion.div
           animate={{ y: [-12, 12, -12], x: [-6, 6, -6] }}
           transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          className="w-12 h-12 sm:w-14 sm:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
+          className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
         >
-          <i className="bx bxl-figma text-3xl sm:text-4xl text-black"></i>
+          <i className="bx bxl-figma text-xl sm:text-2xl md:text-4xl text-black"></i>
         </motion.div>
       </motion.div>
 
@@ -97,14 +97,14 @@ export default function PrincipalsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        className="hidden md:block absolute top-[18%] md:right-[25%] lg:right-[20%]"
+        className="absolute top-[6%] right-[6%] sm:top-[10%] sm:right-[10%] md:top-[18%] md:right-[25%] lg:right-[20%]"
       >
         <motion.div
           animate={{ y: [8, -8, 8], x: [4, -4, 4] }}
           transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-          className="w-12 h-12 sm:w-14 sm:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
+          className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
         >
-          <i className="bx bxl-react text-3xl sm:text-4xl text-black"></i>
+          <i className="bx bxl-react text-xl sm:text-2xl md:text-4xl text-black"></i>
         </motion.div>
       </motion.div>
 
@@ -114,14 +114,14 @@ export default function PrincipalsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        className="hidden md:block absolute top-[42%] md:right-[15%] lg:right-[18%]"
+        className="absolute top-[32%] right-[4%] sm:top-[38%] sm:right-[8%] md:top-[42%] md:right-[15%] lg:right-[18%]"
       >
         <motion.div
           animate={{ y: [-10, 10, -10], x: [-5, 5, -5] }}
           transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-          className="w-12 h-12 sm:w-14 sm:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
+          className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
         >
-          <i className="bx bxl-tailwind-css text-3xl sm:text-4xl text-black"></i>
+          <i className="bx bxl-tailwind-css text-xl sm:text-2xl md:text-4xl text-black"></i>
         </motion.div>
       </motion.div>
 
@@ -131,14 +131,14 @@ export default function PrincipalsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
-        className="hidden md:block absolute bottom-[22%] md:right-[28%] lg:right-[22%]"
+        className="absolute bottom-[10%] right-[7%] sm:bottom-[14%] sm:right-[11%] md:bottom-[22%] md:right-[28%] lg:right-[22%]"
       >
         <motion.div
           animate={{ y: [12, -12, 12], x: [6, -6, 6] }}
           transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-          className="w-12 h-12 sm:w-14 sm:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
+          className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#D1D1D4] rounded-2xl flex items-center justify-center shadow-sm"
         >
-          <SiNextdotjs className="text-3xl sm:text-4xl text-black" />
+          <SiNextdotjs className="text-xl sm:text-2xl md:text-4xl text-black" />
         </motion.div>
       </motion.div>
 
