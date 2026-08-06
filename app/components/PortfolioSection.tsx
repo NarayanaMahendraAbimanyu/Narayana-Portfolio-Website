@@ -143,7 +143,7 @@ export default function PortfolioSection() {
   };
 
   return (
-    <section className="relative w-full min-h-fit md:min-h-screen bg-[#2E2E2E] flex flex-col items-center justify-center py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-10">
+    <section className="relative w-full min-h-fit md:min-h-screen bg-[#2E2E2E] flex flex-col items-center justify-center py-12 sm:py-20 md:py-24 px-4 sm:px-6 md:px-10">
       <motion.div
         variants={containerVariants}
         initial="hidden"
