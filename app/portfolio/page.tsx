@@ -6,7 +6,8 @@ import { HiArrowUpRight } from 'react-icons/hi2';
 import { IoClose, IoExpandOutline, IoContractOutline } from 'react-icons/io5';
 import { FaReact } from 'react-icons/fa';
 import { RiTailwindCssFill } from 'react-icons/ri';
-import { SiNextdotjs, SiTypescript } from 'react-icons/si';
+import { SiNextdotjs, SiTypescript, SiFramer } from 'react-icons/si';
+import { FaFigma } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import FooterSection from '../components/FooterSection';
 
@@ -23,50 +24,58 @@ interface PortfolioItem {
   title: string;
   description: string;
   image: string;
+  link?: string;
   techStack: TechStackItem[];
 }
 
 const projectsData: PortfolioItem[] = [
   {
     id: 1,
-    title: 'Project 1',
-    description: 'Description of project 1 - High quality web development solution built for modern experience.',
-    image: '/project1.jpg',
+    title: 'Rebuild Website Event Organizer (Pra PKL Project)',
+    description: 'Proyek ini merupakan bagian dari program Pra PKL yang diselenggarakan oleh sekolah. Bersama tim lintas peminatan, saya berkolaborasi dengan sebuah industri untuk membangun ulang website Event Organizer berdasarkan desain yang telah dibuat oleh tim. Dalam proyek ini, saya bertanggung jawab mengubah desain menjadi website yang responsif dan fungsional menggunakan React dan Tailwind CSS.',
+    image: '/project1.png',
+    link: 'https://new.ikutaja.id/',
     techStack: [
       { name: 'React JS', subtext: 'Frontend Library', icon: <FaReact className="text-2xl sm:text-3xl text-white" /> },
       { name: 'Tailwind CSS', subtext: 'Utility-First CSS', icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
-      { name: 'Next.js', subtext: 'React Framework', icon: <SiNextdotjs className="text-2xl sm:text-3xl text-white" /> },
-      { name: 'TypeScript', subtext: 'Typed JavaScript', icon: <SiTypescript className="text-2xl sm:text-3xl text-white" /> },
     ],
   },
   {
     id: 2,
-    title: 'Project 2',
-    description: 'Description of project 2 - Interactive web application with seamless UI/UX design.',
-    image: '/project2.jpg',
+    title: 'Bouquet Business Landing Page',
+    description: 'Saya mengembangkan website landing page untuk bisnis bouquet milik orang tua saya, dimulai dari proses perancangan antarmuka menggunakan Figma hingga implementasi menjadi website yang dapat digunakan. Proyek ini bertujuan untuk meningkatkan kehadiran bisnis secara online dengan tampilan yang modern, responsif, dan mudah digunakan oleh pelanggan.',
+    image: '/project2.png',
+    link: 'https://annie-mariea-bouquet.vercel.app/',
     techStack: [
-      { name: 'React JS', subtext: 'Frontend Library', icon: <FaReact className="text-2xl sm:text-3xl text-white" /> },
-      { name: 'Tailwind CSS', subtext: 'Styling Framework', icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'Next.js', subtext: 'React Framework', icon: <SiNextdotjs className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'TypeScript', subtext: 'Typed JavaScript', icon: <SiTypescript className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'Tailwind CSS', subtext: 'Utility-First CSS', icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'Figma', subtext: 'Design Tool', icon: <FaFigma className="text-2xl sm:text-3xl text-white" /> },
     ],
   },
   {
     id: 3,
-    title: 'Project 3',
-    description: 'Description of project 3 - Scalable frontend platform built with clean architecture.',
-    image: '/project3.jpg',
+    title: 'Creative Web Competition – BYTESFEST 2026',
+    description: 'Saya mengikuti Creative Web Competition yang diselenggarakan oleh BYTESFEST 2026 bersama tim. Dalam kompetisi ini, kami mengembangkan website informatif yang membahas Kota Malang, Jawa Timur, mulai dari pengenalan kota, budaya, hingga makanan khasnya. Saya berperan sebagai Web Designer sekaligus Front-End Developer dengan fokus pada perancangan antarmuka dan implementasi tampilan website menggunakan React dan Tailwind CSS. Meskipun belum berhasil melaju ke babak final, pengalaman ini memberikan banyak pembelajaran mengenai kerja sama tim dan pengembangan website untuk kebutuhan kompetisi.',
+    image: '/project3.png',
+    link: 'https://project3-url.com',
     techStack: [
-      { name: 'Next.js', subtext: 'Fullstack Framework', icon: <SiNextdotjs className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'React JS', subtext: 'Frontend Library', icon: <FaReact className="text-2xl sm:text-3xl text-white" /> },
       { name: 'Tailwind CSS', subtext: 'Utility-First CSS', icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
     ],
   },
   {
     id: 4,
-    title: 'Project 4',
-    description: 'Description of project 4 - Custom web experience designed with performance focus.',
-    image: '/project4.jpg',
+    title: 'Personal Website Portfolio',
+    description: 'Saya merancang dan mengembangkan website portfolio pribadi untuk menampilkan profil, pengalaman, serta proyek-proyek yang pernah saya kerjakan. Proses pengembangan dimulai dengan membuat desain di Figma berdasarkan berbagai referensi, kemudian diimplementasikan menjadi website menggunakan Next.js, TypeScript, dan Tailwind CSS. Untuk meningkatkan pengalaman pengguna, saya juga memanfaatkan Framer Motion agar setiap animasi terlihat lebih halus dan interaktif.',
+    image: '/project4.png',
+    link: 'https://narayanamahendra.vercel.app',
     techStack: [
-      { name: 'React JS', subtext: 'Frontend Library', icon: <FaReact className="text-2xl sm:text-3xl text-white" /> },
-      { name: 'TypeScript', subtext: 'Typed Language', icon: <SiTypescript className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'Next.js', subtext: 'React Framework', icon: <SiNextdotjs className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'TypeScript', subtext: 'Typed JavaScript', icon: <SiTypescript className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'Tailwind CSS', subtext: 'Utility-First CSS', icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'Framer Motion', subtext: 'Animation Library', icon: <SiFramer className="text-2xl sm:text-3xl text-white" /> },
+      { name: 'Figma', subtext: 'Design Tool', icon: <FaFigma className="text-2xl sm:text-3xl text-white" /> },
     ],
   },
 ];
@@ -74,30 +83,30 @@ const projectsData: PortfolioItem[] = [
 const certificatesData: PortfolioItem[] = [
   {
     id: 1,
-    title: 'Certificate 1',
-    description: 'Official Certification of Frontend Web Development mastery.',
-    image: '/cert1.jpg',
+    title: 'Creative Web Competition – BYTESFEST 2026',
+    description: 'Mengikuti Creative Web Competition yang diselenggarakan oleh BYTESFEST 2026 pada periode Juni hingga Juli 2026. Bersama tim, saya mengembangkan sebuah website bertema Kota Malang dengan fokus pada pengembangan front-end dan desain antarmuka. Meskipun belum berhasil melaju ke babak final, kompetisi ini memberikan pengalaman berharga dalam kolaborasi tim dan pengembangan website untuk ajang kompetitif.',
+    image: '/cert1.png',
     techStack: [],
   },
   {
     id: 2,
-    title: 'Certificate 2',
-    description: 'Professional Web Design & Interactive Development Certificate.',
-    image: '/cert2.jpg',
+    title: 'SEEFEST Competition – Universitas Telkom Surabaya',
+    description: 'Berpartisipasi dalam kompetisi SEEFEST yang diselenggarakan oleh Universitas Telkom Surabaya pada 25 April hingga 18 Mei 2026. Melalui kompetisi ini, saya memperoleh pengalaman dalam bekerja sama dengan tim, mengembangkan solusi berbasis teknologi, serta meningkatkan kemampuan berpikir kreatif dan pemecahan masalah.',
+    image: '/cert2.png',
     techStack: [],
   },
   {
     id: 3,
-    title: 'Certificate 3',
-    description: 'React JS & Modern Frontend Stack Certification.',
-    image: '/cert3.jpg',
+    title: 'FICTPACT CUP – Universitas Katolik Soegijapranata',
+    description: 'Mengikuti kompetisi FICTPACT CUP yang diselenggarakan oleh Universitas Katolik Soegijapranata pada periode 1 Februari hingga 8 April 2026. Bersama tim, saya berpartisipasi dalam proses pengembangan proyek dan memperoleh pengalaman berharga dalam kolaborasi, manajemen waktu, serta penerapan keterampilan di bidang pengembangan web.',
+    image: '/cert3.png',
     techStack: [],
   },
   {
     id: 4,
-    title: 'Certificate 4',
-    description: 'Full Stack Development Foundations Certification.',
-    image: '/cert4.jpg',
+    title: 'Laravel Web Programmer Training – Telkom DigiUp 2025',
+    description: 'Mengikuti pelatihan Laravel Web Programmer yang diselenggarakan oleh Telkom DigiUp pada Desember 2025. Pelatihan ini membahas dasar-dasar pengembangan aplikasi web menggunakan framework Laravel, mulai dari konsep MVC, routing, database, hingga implementasi fitur-fitur dasar dalam membangun aplikasi web.',
+    image: '/cert4.png',
     techStack: [],
   },
 ];
@@ -196,17 +205,28 @@ export default function PortfolioPage() {
                 key={item.id}
                 variants={cardVariants}
                 onClick={() => setSelectedItem(item)}
-                className="group/card relative w-full aspect-[16/10] rounded-2xl bg-[#D9D9D9] overflow-hidden cursor-pointer"
+                className="group/card relative w-full aspect-[16/10] rounded-2xl overflow-hidden cursor-pointer"
               >
-                <div className="absolute bottom-3 left-4 sm:bottom-4 sm:left-5">
-                  <p className="text-sm sm:text-base md:text-lg font-semibold text-[#010102]">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+                  onError={(e) => {
+                    (e.target as HTMLElement).style.display = 'none';
+                  }}
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+
+                <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-3 p-3 sm:p-4 md:p-5">
+                  <p className="flex-1 min-w-0 truncate text-left text-sm sm:text-base md:text-lg font-semibold text-white">
                     {item.title}
                   </p>
-                </div>
 
-                <button className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#2E2E2E] flex items-center justify-center transition-transform duration-300 group-hover/card:scale-110">
-                  <HiArrowUpRight className="text-[#E5E5E7] text-lg sm:text-xl" />
-                </button>
+                  <button className="shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#2E2E2E] flex items-center justify-center transition-transform duration-300 group-hover/card:scale-110">
+                    <HiArrowUpRight className="text-[#E5E5E7] text-lg sm:text-xl" />
+                  </button>
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -256,11 +276,11 @@ export default function PortfolioPage() {
             >
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10 items-start">
                 <div className="md:col-span-7 flex flex-col gap-6">
-                  <div className="w-full aspect-[16/10] rounded-2xl bg-[#D9D9D9] overflow-hidden relative shadow-inner">
+                  <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden relative shadow-inner bg-[#1a1a1a]">
                     <img
                       src={selectedItem.image}
                       alt={selectedItem.title}
-                      className="w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover"
                       onError={(e) => {
                         (e.target as HTMLElement).style.display = 'none';
                       }}
@@ -324,6 +344,18 @@ export default function PortfolioPage() {
                       {selectedItem.description}
                     </p>
                   </div>
+
+                  {selectedItem.link && (
+                    <a
+                      href={selectedItem.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-[#E5E5E7] text-[#010102] font-semibold text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3 transition-transform duration-300 hover:scale-105"
+                    >
+                      <span>Visit Website</span>
+                      <HiArrowUpRight className="text-base sm:text-lg" />
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
