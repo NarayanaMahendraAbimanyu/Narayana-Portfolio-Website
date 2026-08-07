@@ -71,8 +71,8 @@ export default function ToolsSection() {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.5,
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
       },
     },
   };
@@ -82,7 +82,7 @@ export default function ToolsSection() {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
