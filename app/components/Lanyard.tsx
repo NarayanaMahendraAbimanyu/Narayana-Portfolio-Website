@@ -32,7 +32,7 @@ interface LanyardProps {
 
 export default function Lanyard({
   position = [0, 0, 30],
-  gravity = [0, -30, 0],
+  gravity = [0, -40, 0],
   fov = 20,
   transparent = true,
   frontImage = null,
@@ -110,10 +110,9 @@ function Band({
   const card = useRef<any>(null);
 
   const vec = useMemo(() => new THREE.Vector3(), []);
-  const ang = useMemo(() => new THREE.Vector3(), []);
   const dir = useMemo(() => new THREE.Vector3(), []);
 
-  const segmentProps = { type: "dynamic", canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
+  const segmentProps = { type: "dynamic", canSleep: true, colliders: false, angularDamping: 2, linearDamping: 2 };
   const { nodes, materials } = useGLTF(cardGLB) as any;
   const texture = useTexture(lanyardImage || lanyard) as THREE.Texture;
   const frontTex = useTexture(frontImage || BLANK_PIXEL) as THREE.Texture;
@@ -167,7 +166,6 @@ function Band({
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState<boolean>(false);
-  const [isSpinning, setIsSpinning] = useState<boolean>(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -183,12 +181,8 @@ function Band({
 
   useFrame((state: any, delta: any) => {
     const time = state.clock.getElapsedTime();
-    const cycleTime = time % 20;
-    const spinningNow = cycleTime < 2.0;
-
-    if (spinningNow !== isSpinning) {
-      setIsSpinning(spinningNow);
-    }
+    const cycleTime = time % 15;
+    const isSpinning = cycleTime < 2;
 
     if (dragged) {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
@@ -201,6 +195,7 @@ function Band({
         z: vec.z - dragged.z,
       });
     }
+
     if (fixed.current) {
       [j1, j2].forEach((ref) => {
         if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation());
@@ -214,26 +209,15 @@ function Band({
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
-      
+
       band.current.geometry.setPoints(curve.getPoints(12));
 
-      if (spinningNow && !dragged && card.current) {
-        // Rotasi penuh 360 derajat selama durasi 2 detik
-        const progress = cycleTime / 2.0;
-        const currentRotationY = progress * Math.PI * 2;
-        if (card.current.setRotation && card.current.translation) {
-          const t = card.current.translation();
-          const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, currentRotationY, 0));
-          card.current.setNextKinematicRotation(q);
-          card.current.setNextKinematicTranslation(t);
-        }
-      } else if (!dragged && card.current) {
-        // Animasi berayun pelan menghadap ke kanan dan ke kiri secara lembut
-        const slowSwayAngle = Math.sin(time * 1.2) * 0.35; // Amplitudo dan kecepatan diatur agar pelan & natural
-        const t = card.current.translation();
-        const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, slowSwayAngle, 0));
+      if (!dragged && card.current) {
+        card.current.wakeUp();
+        const progress = isSpinning ? cycleTime / 2 : 0;
+        const spinAngle = progress * Math.PI * 2;
+        const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, spinAngle, 0));
         card.current.setNextKinematicRotation(q);
-        card.current.setNextKinematicTranslation(t);
       }
     }
   });
@@ -258,12 +242,12 @@ function Band({
           position={[2, 0, 0]} 
           ref={card} 
           {...(segmentProps as any)} 
-          type={dragged || isSpinning || true ? "kinematicPosition" : "dynamic"}
         >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={2.25}
             position={[0, -1.2, -0.05]}
+            rotation={[0, -Math.PI / 2, 0]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={(e: any) => {
@@ -271,6 +255,7 @@ function Band({
               drag(false);
             }}
             onPointerDown={(e: any) => {
+              e.stopPropagation();
               if (e.target) e.target.setPointerCapture(e.pointerId);
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
             }}
