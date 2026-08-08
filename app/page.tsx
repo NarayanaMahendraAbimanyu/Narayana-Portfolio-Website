@@ -7,7 +7,6 @@ import ToolsSection from "./components/ToolsSection";
 import PortfolioSection from "./components/PortfolioSection";
 import ContactSection from "./components/ContactSection";
 import FooterSection from "./components/FooterSection";
-import { Contact } from "lucide-react";
 
 export default function Home() {
   return (

@@ -1,8 +1,8 @@
+// @ts-nocheck
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-// @ts-ignore
 import { Canvas, extend, useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture, Environment, Lightformer } from "@react-three/drei";
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from "@react-three/rapier";
@@ -32,7 +32,7 @@ interface LanyardProps {
 
 export default function Lanyard({
   position = [0, 0, 30],
-  gravity = [0, -40, 0],
+  gravity = [0, -30, 0],
   fov = 20,
   transparent = true,
   frontImage = null,
@@ -55,12 +55,12 @@ export default function Lanyard({
     <div className="relative w-full h-full flex justify-center items-center">
       <Canvas
         camera={{ position: position, fov: fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent }}
+        dpr={[1, 1.25]}
+        gl={{ alpha: transparent, powerPreference: "high-performance" }}
         onCreated={({ gl }: { gl: THREE.WebGLRenderer }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
         <ambientLight intensity={Math.PI} />
-        <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+        <Physics gravity={gravity} timeStep={1 / 60}>
           <Band
             isMobile={isMobile}
             frontImage={frontImage}
@@ -93,7 +93,7 @@ interface BandProps {
 }
 
 function Band({
-  maxSpeed = 50,
+  maxSpeed = 30,
   minSpeed = 0,
   isMobile = false,
   frontImage = null,
@@ -111,7 +111,6 @@ function Band({
 
   const vec = useMemo(() => new THREE.Vector3(), []);
   const ang = useMemo(() => new THREE.Vector3(), []);
-  const rot = useMemo(() => new THREE.Vector3(), []);
   const dir = useMemo(() => new THREE.Vector3(), []);
 
   const segmentProps = { type: "dynamic", canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
@@ -160,7 +159,7 @@ function Band({
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
-    composite.anisotropy = 16;
+    composite.anisotropy = 8;
     composite.needsUpdate = true;
     return composite;
   }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
@@ -168,6 +167,7 @@ function Band({
   const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]));
   const [dragged, drag] = useState<THREE.Vector3 | false>(false);
   const [hovered, hover] = useState<boolean>(false);
+  const [isSpinning, setIsSpinning] = useState<boolean>(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -182,6 +182,14 @@ function Band({
   }, [hovered, dragged]);
 
   useFrame((state: any, delta: any) => {
+    const time = state.clock.getElapsedTime();
+    const cycleTime = time % 20;
+    const spinningNow = cycleTime < 2.0;
+
+    if (spinningNow !== isSpinning) {
+      setIsSpinning(spinningNow);
+    }
+
     if (dragged) {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
@@ -206,18 +214,27 @@ function Band({
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
-      band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
       
-      ang.copy(card.current.angvel());
-      rot.copy(card.current.rotation());
-      
-      const time = state.clock.getElapsedTime();
-      // Ayunan kanan-kiri sangat tipis dan halus
-      const gentleSway = Math.sin(time * 0.35) * 0.015;
-      // Durasi putaran penuh 360 derajat sekitar 15-20 detik (kecepatan putar lambat)
-      const continuousSpin = 0.35;
-      
-      card.current.setAngvel({ x: ang.x, y: continuousSpin + gentleSway, z: ang.z });
+      band.current.geometry.setPoints(curve.getPoints(12));
+
+      if (spinningNow && !dragged && card.current) {
+        // Rotasi penuh 360 derajat selama durasi 2 detik
+        const progress = cycleTime / 2.0;
+        const currentRotationY = progress * Math.PI * 2;
+        if (card.current.setRotation && card.current.translation) {
+          const t = card.current.translation();
+          const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, currentRotationY, 0));
+          card.current.setNextKinematicRotation(q);
+          card.current.setNextKinematicTranslation(t);
+        }
+      } else if (!dragged && card.current) {
+        // Animasi berayun pelan menghadap ke kanan dan ke kiri secara lembut
+        const slowSwayAngle = Math.sin(time * 1.2) * 0.35; // Amplitudo dan kecepatan diatur agar pelan & natural
+        const t = card.current.translation();
+        const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, slowSwayAngle, 0));
+        card.current.setNextKinematicRotation(q);
+        card.current.setNextKinematicTranslation(t);
+      }
     }
   });
 
@@ -237,7 +254,12 @@ function Band({
         <RigidBody position={[1.5, 0, 0]} ref={j3} {...(segmentProps as any)}>
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[2, 0, 0]} ref={card} {...(segmentProps as any)} type={dragged ? "kinematicPosition" : "dynamic"}>
+        <RigidBody 
+          position={[2, 0, 0]} 
+          ref={card} 
+          {...(segmentProps as any)} 
+          type={dragged || isSpinning || true ? "kinematicPosition" : "dynamic"}
+        >
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={2.25}
@@ -256,11 +278,11 @@ function Band({
             <mesh geometry={nodes.card.geometry}>
               <meshPhysicalMaterial
                 map={cardMap}
-                map-anisotropy={16}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
+                map-anisotropy={8}
+                clearcoat={isMobile ? 0 : 0.8}
+                clearcoatRoughness={0.2}
+                roughness={0.8}
+                metalness={0.5}
               />
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
@@ -273,7 +295,7 @@ function Band({
         {React.createElement("meshLineMaterial" as any, {
           color: "white",
           depthTest: false,
-          resolution: isMobile ? [1000, 2000] : [1000, 1000],
+          resolution: [800, 800],
           useMap: true,
           map: texture,
           repeat: [-4, 1],
