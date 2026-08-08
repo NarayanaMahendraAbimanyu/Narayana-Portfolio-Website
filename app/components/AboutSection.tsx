@@ -1,16 +1,16 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Lanyard from "./Lanyard";
 
 export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative w-full min-h-screen py-2 px-4 sm:px-8 md:px-16 lg:px-24 flex items-center justify-center bg-[#E7E7E7]"
+      className="relative w-full min-h-screen py-10 px-4 sm:px-8 md:px-16 lg:px-24 flex items-center justify-center bg-[#E7E7E7]"
     >
-      <div className="max-w-5xl w-full mx-auto">
+      <div className="max-w-6xl w-full mx-auto">
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
@@ -19,53 +19,17 @@ export default function AboutSection() {
           className="w-full bg-[#333333] border-2 border-gray-400/80 rounded-[28px] md:rounded-[36px] p-6 sm:p-8 md:p-12 shadow-lg relative ring-1 ring-white/10"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            <div className="lg:col-span-5 flex justify-center relative pt-20 lg:pt-32 pb-8">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-28 lg:h-40 bg-[#111] z-0 flex flex-col items-center justify-evenly border-x border-black/50">
-                <div className="w-1.5 h-4 bg-gray-700 rounded-sm" />
-                <div className="w-1.5 h-4 bg-gray-700 rounded-sm" />
-                <div className="w-1.5 h-4 bg-gray-700 rounded-sm" />
+            
+            <div className="lg:col-span-5 flex justify-center items-center relative w-full h-[400px] md:h-[450px] lg:h-[550px]">
+              <div className="w-full h-full flex items-center justify-center relative z-10 cursor-grab active:cursor-grabbing">
+                <Lanyard
+                  position={[0, 0, 14]}
+                  gravity={[0, -40, 0]}
+                  frontImage="/fotonarayana-about.png"
+                  imageFit="cover"
+                  lanyardWidth={2}
+                />
               </div>
-
-              <motion.div
-                drag
-                dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
-                dragElastic={0.2}
-                initial={{ rotate: -10, opacity: 0, y: 20 }}
-                whileInView={{ rotate: 0, opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  type: "spring",
-                  stiffness: 120,
-                  damping: 14,
-                  mass: 1.2,
-                  delay: 0.2,
-                }}
-                style={{ transformOrigin: "top center" }}
-                className="relative w-full max-w-[220px] rounded-[18px] border-2 border-[#5B5B87] bg-[#171721] p-3.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10 cursor-grab active:cursor-grabbing flex flex-col items-center"
-              >
-                <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-6 h-8 border-2 border-[#5B5B87] rounded-md z-20 flex items-start justify-center bg-[#171721]">
-                  <div className="w-2 h-4 bg-[#111] mt-1 rounded-sm" />
-                </div>
-
-                <div className="relative w-full aspect-[3/4] rounded-[10px] overflow-hidden bg-black pointer-events-none mb-3 border border-white/5">
-                  <Image
-                    src="/fotonarayana-about.png"
-                    alt="Narayana Mahendra Abimanyu"
-                    fill
-                    priority
-                    className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                </div>
-
-                <div className="flex flex-col items-center justify-center space-y-1.5 w-full pb-1 pointer-events-none">
-                  <span className="bg-[#5B5B87] text-white text-[11px] font-bold px-3 py-1 rounded-sm tracking-wide">
-                    Programmer
-                  </span>
-                  <span className="text-gray-200 text-xs font-bold tracking-wider">
-                    Web Developer
-                  </span>
-                </div>
-              </motion.div>
             </div>
 
             <div className="lg:col-span-7 flex flex-col justify-center space-y-6 text-gray-100">
@@ -151,6 +115,7 @@ export default function AboutSection() {
                 </div>
               </div>
             </div>
+
           </div>
         </motion.div>
       </div>
