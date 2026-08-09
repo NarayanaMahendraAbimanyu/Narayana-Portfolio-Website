@@ -15,6 +15,7 @@ export default function MarqueeSection() {
     damping: 25,
     stiffness: 120,
     mass: 0.5,
+    restDelta: 0.001,
   });
 
   const topX = useTransform(smoothProgress, [0, 0.5, 1], ["40vw", "0vw", "-40vw"]);

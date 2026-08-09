@@ -13,10 +13,10 @@ export default function Home() {
     <main className="w-full min-h-screen">
       <Navbar />
       <HeroSection />
-      <AboutSection />
+      <PrincipalsSection />
       <MarqueeSection />
       <div className="relative">
-        <PrincipalsSection />
+        <AboutSection />
         <ToolsSection />
       </div>
       <PortfolioSection />

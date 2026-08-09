@@ -1,46 +1,49 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 
 export default function AboutSection() {
+  const containerRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 20,
+    restDelta: 0.001,
+  });
+
+  const imageY = useTransform(smoothProgress, [0, 0.5, 1], [100, 0, -100]);
+  const contentY = useTransform(smoothProgress, [0, 0.5, 1], [150, 0, -150]);
+  const headerY = useTransform(smoothProgress, [0, 0.5, 1], [-50, 0, 50]);
+
   return (
     <section
+      ref={containerRef}
       id="about"
-      className="relative w-full min-h-screen py-16 px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center justify-center bg-[#E5E5E7]"
+      className="relative md:sticky md:top-0 w-full min-h-[auto] md:min-h-screen py-32 md:py-1 px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center justify-center bg-[#E5E5E7] overflow-hidden"
     >
-      <div className="flex flex-col items-center justify-center mb-10 text-center">
-        <motion.h2
-          initial={{ y: -20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-4xl md:text-5xl font-bold text-black mb-1"
-        >
+      <motion.div style={{ y: headerY }} className="flex flex-col items-center justify-center mb-10 md:mb-6 text-center">
+        <h2 className="text-4xl md:text-5xl font-bold text-black mb-1">
           About Me
-        </motion.h2>
-        <motion.p
-          initial={{ y: -20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-lg md:text-xl font-normal text-gray-700"
-        >
+        </h2>
+        <p className="text-lg md:text-xl font-normal text-gray-700">
           Getting to know me better
-        </motion.p>
-      </div>
+        </p>
+      </motion.div>
 
       <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          style={{ y: imageY }}
           className="lg:col-span-4 w-full h-full"
         >
           <div className="bg-[#2A2A2A] border-2 border-[#2A2A2A] rounded-3xl p-2 w-full h-full flex flex-col shadow-[0_4px_15px_rgba(0,0,0,0.08)]">
-            <div className="relative w-full h-[400px] sm:h-[500px] lg:h-full border-[3px] border-white rounded-2xl overflow-hidden bg-black">
+            <div className="relative w-full h-[400px] sm:h-[500px] md:h-[360px] lg:h-full border-[3px] border-white rounded-2xl overflow-hidden bg-black">
               <Image
                 src="/fotonryna-about.png"
                 alt="Narayana Mahendra"
@@ -52,27 +55,15 @@ export default function AboutSection() {
           </div>
         </motion.div>
 
-        <div className="lg:col-span-8 flex flex-col gap-6">
-          <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="w-full bg-[#333333] rounded-[24px] p-6 sm:p-8 md:p-10 shadow-[0_4px_15px_rgba(0,0,0,0.08)]"
-          >
+        <motion.div style={{ y: contentY }} className="lg:col-span-8 flex flex-col gap-6">
+          <div className="w-full bg-[#333333] rounded-[24px] p-6 sm:p-8 md:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)]">
             <p className="text-white text-sm sm:text-base md:text-lg font-normal leading-relaxed text-justify">
               Hello!, I am <span className="font-bold underline">Narayana Mahendra</span>, with a strong interest in Front-End Development and a passion for Web Design. I believe that an appealing visual design must always be backed by a solid technical foundation. That is why I am always enthusiastic about blending creative layouts with programming logic to bring digital interfaces to life. The ultimate goal of every project I work on is to deliver web products that are not only pleasing to the eye but also highly practical and intuitive to use.
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="w-full bg-[#333333] rounded-[24px] p-6 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col justify-between h-full"
-            >
+            <div className="w-full bg-[#333333] rounded-[24px] p-6 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col justify-between h-full">
               <div>
                 <h3 className="text-2xl font-bold text-white mb-2">Stay in</h3>
                 <p className="text-white text-lg sm:text-xl font-semibold w-3/4">
@@ -89,15 +80,9 @@ export default function AboutSection() {
                   </span>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="w-full bg-[#C7C7C7] rounded-[24px] p-6 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col h-full"
-            >
+            <div className="w-full bg-[#C7C7C7] rounded-[24px] p-6 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col h-full">
               <h3 className="text-2xl sm:text-3xl font-bold text-black mb-6">
                 Education
               </h3>
@@ -121,9 +106,9 @@ export default function AboutSection() {
                   </span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

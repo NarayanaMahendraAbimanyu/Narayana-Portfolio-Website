@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useTransform, useSpring, Variants } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring, useScroll, Variants } from "framer-motion";
 import { Mail } from "lucide-react";
 
 const containerVariants: Variants = {
@@ -32,7 +32,24 @@ const wordVariants: Variants = {
 };
 
 export default function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 20,
+    restDelta: 0.001,
+  });
+
+  const textY = useTransform(smoothProgress, [0, 1], [0, -100]);
+  const cardY = useTransform(smoothProgress, [0, 1], [0, 120]);
+  const cardScale = useTransform(smoothProgress, [0, 1], [1, 0.9]);
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -82,9 +99,10 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="min-h-screen w-full flex items-center justify-center px-5 pt-10 pb-10 sm:px-6 sm:pt-32 sm:pb-12 md:px-16 md:py-12 lg:px-24 bg-[#E5E5E7]">
+    <section ref={sectionRef} className="min-h-screen w-full flex items-center justify-center px-5 pt-10 pb-10 sm:px-6 sm:pt-32 sm:pb-12 md:px-16 md:py-12 lg:px-24 bg-[#E5E5E7] overflow-hidden">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-12 items-center">
         <motion.div
+          style={{ y: textY }}
           className="lg:col-span-7 flex flex-col justify-center"
           variants={containerVariants}
           initial="hidden"
@@ -217,6 +235,7 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.div 
+          style={{ y: cardY, scale: cardScale }}
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
