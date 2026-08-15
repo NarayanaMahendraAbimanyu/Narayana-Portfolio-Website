@@ -31,7 +31,7 @@ interface PortfolioItem {
 const projectsData: PortfolioItem[] = [
   {
     id: 1,
-    title: "Rebuild Website Event Organizer (Pra PKL Project)",
+    title: "Rebuild Website Event Organizer",
     description: "Proyek ini merupakan bagian dari program Pra PKL yang diselenggarakan oleh sekolah. Bersama tim lintas peminatan, saya berkolaborasi dengan sebuah industri untuk membangun ulang website Event Organizer berdasarkan desain yang telah dibuat oleh tim. Dalam proyek ini, saya bertanggung jawab mengubah desain menjadi website yang responsif dan fungsional menggunakan React dan Tailwind CSS.",
     image: "/project1.png",
     link: "https://new.ikutaja.id/",
@@ -55,7 +55,7 @@ const projectsData: PortfolioItem[] = [
   },
   {
     id: 3,
-    title: "Creative Web Competition – BYTESFEST 2026",
+    title: "City of Malang - Tourism & Culture Website",
     description: "Saya mengikuti Creative Web Competition yang diselenggarakan oleh BYTESFEST 2026 bersama tim. Dalam kompetisi ini, kami mengembangkan website informatif yang membahas Kota Malang, Jawa Timur, mulai dari pengenalan kota, budaya, hingga makanan khasnya. Saya berperan sebagai Web Designer sekaligus Front-End Developer dengan fokus pada perancangan antarmuka dan implementasi tampilan website menggunakan React dan Tailwind CSS. Meskipun belum berhasil melaju ke babak final, pengalaman ini memberikan banyak pembelajaran mengenai kerja sama tim dan pengembangan website untuk kebutuhan kompetisi.",
     image: "/project3.png",
     link: "https://ngalam-creativeweb.vercel.app/",
@@ -75,6 +75,18 @@ const projectsData: PortfolioItem[] = [
       { name: "TypeScript", subtext: "Typed JavaScript", icon: <SiTypescript className="text-2xl sm:text-3xl text-white" /> },
       { name: "Tailwind CSS", subtext: "Utility-First CSS", icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
       { name: "Framer Motion", subtext: "Animation Library", icon: <SiFramer className="text-2xl sm:text-3xl text-white" /> },
+      { name: "Figma", subtext: "Design Tool", icon: <FaFigma className="text-2xl sm:text-3xl text-white" /> },
+    ],
+  },
+  {
+    id: 5,
+    title: "XPACT - UMKM & Student Platform",
+    description: "Saya berperan sebagai Frontend Developer dalam kompetisi FICTPACT CUP dengan mengembangkan konsep platform yang menghubungkan UMKM dan pelajar melalui berbagai project. Platform ini memungkinkan UMKM menawarkan kebutuhan seperti desain poster atau pembuatan website statis yang dapat diambil oleh pelajar sebagai kesempatan untuk memperoleh pengalaman melalui project nyata. Saya mengimplementasikan desain UI/UX menjadi website menggunakan React JS dan Tailwind CSS.",
+    image: "/project5.png",
+    link: "https://fictpactcup-fsociety.vercel.app/",
+    techStack: [
+      { name: "React JS", subtext: "Frontend Library", icon: <FaReact className="text-2xl sm:text-3xl text-white" /> },
+      { name: "Tailwind CSS", subtext: "Utility-First CSS", icon: <RiTailwindCssFill className="text-2xl sm:text-3xl text-white" /> },
       { name: "Figma", subtext: "Design Tool", icon: <FaFigma className="text-2xl sm:text-3xl text-white" /> },
     ],
   },

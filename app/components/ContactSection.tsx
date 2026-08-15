@@ -51,7 +51,7 @@ export default function ContactSection() {
         <div className="overflow-hidden mb-6 sm:mb-10 md:mb-12">
           <motion.h2
             variants={textRevealVariants}
-            className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-tight"
+            className="text-4xl sm:text-4xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-tight"
           >
             Let’s Talk
             <br />
