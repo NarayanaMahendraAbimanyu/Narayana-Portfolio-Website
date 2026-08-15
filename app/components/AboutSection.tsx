@@ -62,46 +62,46 @@ export default function AboutSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-            <div className="w-full bg-[#333333] rounded-[24px] p-6 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col justify-between h-full">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 h-full">
+            <div className="w-full bg-[#333333] rounded-[24px] p-4 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col justify-between h-full">
               <div>
-                <h3 className="text-2xl font-bold text-white mb-2">Stay in</h3>
-                <p className="text-white text-lg sm:text-xl font-semibold w-3/4">
+                <h3 className="text-lg sm:text-2xl font-bold text-white mb-2">Stay in</h3>
+                <p className="text-white text-sm sm:text-xl font-semibold w-full sm:w-3/4">
                   Sidoarjo, East Java, Indonesia.
                 </p>
               </div>
 
-              <div className="mt-8">
-                <div className="w-full h-[2px] bg-[#E5E5E7] mb-5"></div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 rounded-full bg-[#00FF00] animate-pulse"></div>
-                  <span className="text-white font-semibold text-base sm:text-lg">
+              <div className="mt-4 sm:mt-8">
+                <div className="w-full h-[2px] bg-[#E5E5E7] mb-3 sm:mb-5"></div>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#00FF00] animate-pulse shrink-0"></div>
+                  <span className="text-white font-semibold text-xs sm:text-lg">
                     Open for new project
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="w-full bg-[#C7C7C7] rounded-[24px] p-6 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col h-full">
-              <h3 className="text-2xl sm:text-3xl font-bold text-black mb-6">
+            <div className="w-full bg-[#C7C7C7] rounded-[24px] p-4 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col h-full">
+              <h3 className="text-lg sm:text-3xl font-bold text-black mb-4 sm:mb-6">
                 Education
               </h3>
 
-              <div className="flex flex-col gap-6">
-                <div className="flex flex-col xl:flex-row xl:items-center gap-3 xl:gap-5">
-                  <div className="bg-black text-white px-3 py-1.5 rounded text-sm sm:text-base font-bold w-fit whitespace-nowrap">
+              <div className="flex flex-col gap-4 sm:gap-6">
+                <div className="flex flex-col xl:flex-row xl:items-center gap-1 sm:gap-3 xl:gap-5">
+                  <div className="bg-black text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
                     2021 – 2024
                   </div>
-                  <span className="text-black font-bold text-base sm:text-lg">
+                  <span className="text-black font-bold text-xs sm:text-lg">
                     SMP Negeri 2 Gedangan
                   </span>
                 </div>
 
-                <div className="flex flex-col xl:flex-row xl:items-center gap-3 xl:gap-5">
-                  <div className="bg-black text-white px-3 py-1.5 rounded text-sm sm:text-base font-bold w-fit whitespace-nowrap">
+                <div className="flex flex-col xl:flex-row xl:items-center gap-1 sm:gap-3 xl:gap-5">
+                  <div className="bg-black text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
                     2024 – Now
                   </div>
-                  <span className="text-black font-bold text-base sm:text-lg">
+                  <span className="text-black font-bold text-xs sm:text-lg">
                     SMK Telkom Sidoarjo
                   </span>
                 </div>
