@@ -31,7 +31,7 @@ const textRevealVariants: Variants = {
 
 export default function ContactSection() {
   return (
-    <section className="w-full bg-[#2E2E2E] text-[#E5E5E7] py-10 px-4 sm:py-16 sm:px-8 md:py-24 md:px-16 lg:px-24 flex flex-col justify-between min-h-0">
+    <section id="contact" className="w-full bg-[#2E2E2E] text-[#E5E5E7] py-10 px-4 sm:py-16 sm:px-8 md:py-24 md:px-16 lg:px-24 flex flex-col justify-between min-h-0">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -98,14 +98,6 @@ export default function ContactSection() {
             className="hover:text-white transition-colors duration-300 uppercase"
           >
             GITHUB
-          </a>
-          <a
-            href="https://bit.ly/4wF2mHA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors duration-300 uppercase"
-          >
-            LINKEDIN
           </a>
           <a
             href="https://instagram.com/abcdlmnryna_"

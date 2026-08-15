@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { EB_Garamond } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScrolling";
+import ScrollRuler from "./components/ScrollRuler";
 
 // Inisialisasi Font Poppins dengan weights & subsets yang dibutuhkan
 const poppins = Poppins({
@@ -35,6 +36,7 @@ export default function RootLayout({
         <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
       </head>
       <body className={`${poppins.className} antialiased`}>
+        <ScrollRuler />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
