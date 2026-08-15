@@ -117,7 +117,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
               </div>
 
               <div className="flex justify-end">
-                <span className="text-xs sm:text-sm font-poppins text-[#FF5F56] font-medium">
+                <span className="text-sm sm:text-lg font-poppins text-[#FF5F56] font-medium">
                   {Math.round(progress)}%
                 </span>
               </div>
