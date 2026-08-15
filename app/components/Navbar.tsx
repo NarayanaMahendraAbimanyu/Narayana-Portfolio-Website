@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [activeSection, setActiveSection] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -26,23 +27,28 @@ export default function Navbar() {
   };
 
   const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
     setActiveSection("contact");
     setIsOpen(false);
 
-    const targetElement = document.getElementById("contact");
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+    if (isHome) {
+      e.preventDefault();
+      const targetElement = document.getElementById("contact");
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    } else {
+      e.preventDefault();
+      router.push("/#contact");
     }
   };
 
   const navLinks = [
     { title: "HOME", href: "/", number: "01", action: scrollToTop, active: isHome && activeSection !== "contact" },
     { title: "PORTFOLIO", href: "/portfolio", number: "02", action: () => { setActiveSection(""); setIsOpen(false); }, active: isPortfolio },
-    { title: "CONTACT", href: "#contact", number: "03", action: scrollToContact, active: activeSection === "contact" },
+    { title: "CONTACT", href: "/#contact", number: "03", action: scrollToContact, active: activeSection === "contact" },
   ];
 
   const menuVariants: Variants = {
@@ -154,7 +160,7 @@ export default function Navbar() {
             </Link>
 
             <a
-              href="#contact"
+              href="/#contact"
               onClick={scrollToContact}
               className={`transition-all duration-300 hover:text-white whitespace-nowrap uppercase cursor-pointer ${
                 activeSection === "contact"
