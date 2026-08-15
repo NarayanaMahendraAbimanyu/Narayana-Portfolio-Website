@@ -202,15 +202,16 @@ export default function HeroSection() {
           <div className="overflow-hidden py-1">
             <motion.div variants={wordVariants} className="flex flex-wrap items-center gap-4 pt-2">
               <a
-                href="/cv.pdf"
-                download
+                href="/resume-narayanamahendra.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl font-bold text-sm md:text-base transition-transform duration-200 active:scale-95 shadow-md inline-block bg-[#2A2A2A] text-white hover:bg-black"
               >
                 RESUME
               </a>
 
               <motion.a
-                href="#projects"
+                href="/portfolio"
                 className="relative overflow-hidden px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl font-bold text-sm md:text-base border-2 border-[#2A2A2A] shadow-sm flex items-center justify-center group text-[#010102] bg-transparent"
                 whileHover="hover"
                 initial="initial"
