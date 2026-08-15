@@ -99,7 +99,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section ref={sectionRef} className="min-h-screen w-full flex items-center justify-center px-5 pt-10 pb-10 sm:px-6 sm:pt-32 sm:pb-12 md:px-16 md:py-12 lg:px-24 bg-[#E5E5E7] overflow-hidden">
+    <section ref={sectionRef} className="h-auto md:min-h-screen w-full flex items-center justify-center px-5 pt-28 pb-16 sm:px-6 sm:pt-32 sm:pb-12 md:px-16 md:py-12 lg:px-24 bg-[#E5E5E7] overflow-hidden">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-12 items-center">
         <motion.div
           style={{ y: textY }}
