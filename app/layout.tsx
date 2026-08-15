@@ -5,23 +5,15 @@ import "./globals.css";
 import SmoothScroll from "./components/SmoothScrolling";
 import ScrollRuler from "./components/ScrollRuler";
 
-// Inisialisasi Font Poppins dengan weights & subsets yang dibutuhkan
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"], // Sesuai kebutuhan desain (Regular, Medium, SemiBold, Bold, ExtraBold)
-  variable: "--font-poppins", // Membuat CSS variable
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
-const garamond = EB_Garamond({ 
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  style: ["normal", "italic"],
-  variable: "--font-garamond", 
-});
-
 export const metadata: Metadata = {
-  title: "Narayana Mahendra Abimanyu - Portfolio",
+  title: "Narayana Mahendra Abimanyu Portfolio",
   description: "Front End Developer & Web Designer Portfolio",
 };
 

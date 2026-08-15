@@ -42,9 +42,15 @@ export default function ContactSection() {
         <div className="overflow-hidden mb-2 sm:mb-3">
           <motion.p
             variants={textRevealVariants}
-            className="text-xs sm:text-sm md:text-base font-light text-[#E5E5E7]/70 tracking-wide"
+            className="text-xs sm:text-sm md:text-sm font-light text-[#E5E5E7]/70 tracking-wide uppercase"
           >
             Get in touch
+          </motion.p>
+          <motion.p
+            variants={textRevealVariants}
+            className="text-xs sm:text-sm md:text-sm font-light text-[#E5E5E7]/70 tracking-wide uppercase"
+          >
+            Sidoarjo, Indonesia
           </motion.p>
         </div>
 
@@ -53,7 +59,7 @@ export default function ContactSection() {
             variants={textRevealVariants}
             className="text-5xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-tight"
           >
-            Let’s Talk
+            Let's Talk
             <br />
             Together.
           </motion.h2>
