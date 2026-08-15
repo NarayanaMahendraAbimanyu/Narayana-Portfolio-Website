@@ -31,7 +31,7 @@ const textRevealVariants: Variants = {
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="w-full bg-[#2E2E2E] text-[#E5E5E7] py-10 px-4 sm:py-16 sm:px-8 md:py-24 md:px-16 lg:px-24 flex flex-col justify-between min-h-0">
+    <section id="contact" className="w-full bg-[#2E2E2E] text-[#E5E5E7] py-24 px-4 sm:py-16 sm:px-8 md:py-24 md:px-16 lg:px-24 flex flex-col justify-between min-h-0">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -48,10 +48,10 @@ export default function ContactSection() {
           </motion.p>
         </div>
 
-        <div className="overflow-hidden mb-6 sm:mb-10 md:mb-12">
+        <div className="overflow-hidden mb-8 sm:mb-10 md:mb-12">
           <motion.h2
             variants={textRevealVariants}
-            className="text-4xl sm:text-4xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-tight"
+            className="text-5xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-tight"
           >
             Let’s Talk
             <br />
@@ -84,7 +84,7 @@ export default function ContactSection() {
           className="flex flex-wrap items-center justify-center gap-4 sm:gap-10 md:gap-16 text-[10px] sm:text-sm md:text-base font-normal tracking-wider text-[#E5E5E7]/70"
         >
           <a
-            href="/cv.pdf"
+            href="/resume-narayanamahendra.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors duration-300 uppercase"
