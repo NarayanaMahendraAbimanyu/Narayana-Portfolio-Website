@@ -99,7 +99,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section ref={sectionRef} className="h-auto md:min-h-screen w-full flex items-center justify-center px-5 pt-28 pb-16 sm:px-6 sm:pt-32 sm:pb-12 md:px-16 md:py-12 lg:px-24 bg-[#E5E5E7] overflow-hidden">
+    <section ref={sectionRef} className="h-auto min-h-[calc(100vh-3rem)] w-full flex items-center justify-center px-5 pt-28 pb-32 sm:px-6 sm:pt-32 sm:pb-16 md:px-16 md:py-12 lg:px-24 bg-[#E5E5E7] overflow-hidden">
       <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-12 items-center">
         <motion.div
           style={{ y: textY }}
@@ -240,7 +240,7 @@ export default function HeroSection() {
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="lg:col-span-5 flex justify-center items-center perspective-1000"
+          className="lg:col-span-5 flex justify-center items-center perspective-1000 mt-8 sm:mt-10 lg:mt-0"
         >
           <motion.div
             ref={cardRef}
@@ -251,7 +251,7 @@ export default function HeroSection() {
               rotateY,
               transformStyle: "preserve-3d",
             }}
-            className="relative w-full max-w-[260px] sm:max-w-[300px] md:max-w-[340px] aspect-[4/5] p-3.5 sm:p-4 cursor-pointer"
+            className="relative w-full max-w-[310px] sm:max-w-[340px] md:max-w-[360px] aspect-[4/5] p-3.5 sm:p-4 cursor-pointer"
           >
             <svg
               className="absolute inset-0 w-full h-full pointer-events-none z-20"
