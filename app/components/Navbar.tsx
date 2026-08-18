@@ -55,9 +55,8 @@ export default function Navbar() {
     closed: {
       x: "100%",
       transition: {
-        duration: 0.6,
-        ease: [0.76, 0, 0.24, 1],
-        when: "afterChildren",
+        duration: 0.5,
+        ease: [0.32, 0.72, 0, 1],
       },
     },
     open: {
@@ -72,12 +71,7 @@ export default function Navbar() {
   };
 
   const linkContainerVariants: Variants = {
-    closed: {
-      transition: {
-        staggerChildren: 0.02,
-        staggerDirection: -1,
-      },
-    },
+    closed: {},
     open: {
       transition: {
         staggerChildren: 0.03,
