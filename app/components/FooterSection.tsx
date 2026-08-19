@@ -21,8 +21,8 @@ const FooterSection = () => {
           <p className="font-normal text-[11px] sm:text-xs md:text-sm whitespace-normal lg:whitespace-nowrap text-gray-300">
             Narayana Mahendra Abimanyu - Front End Developer & Web Designer
           </p>
-          <p className="font-normal text-[11px] sm:text-xs md:text-sm text-gray-400">
-            © 2026 All rights reserved
+          <p className="font-normal text-[8px] sm:text-[11px] md:text-xs text-gray-400">
+            © 2026 Narayana Mahendra A. All rights reserved
           </p>
         </div>
 
