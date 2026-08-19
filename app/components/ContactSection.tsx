@@ -87,7 +87,7 @@ export default function ContactSection() {
           whileInView={{ y: "0%", opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-wrap items-center justify-center gap-4 sm:gap-10 md:gap-16 text-[10px] sm:text-sm md:text-base font-normal tracking-wider text-[#E5E5E7]/70"
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-10 md:gap-16 text-[10px] sm:text-sm md:text-base font-normal tracking-wider text-[#E5E5E7]/20"
         >
           <a
             href="/resume-narayanamahendra.pdf"
