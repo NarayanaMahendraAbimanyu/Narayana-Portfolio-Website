@@ -58,7 +58,7 @@ export default function AboutSection() {
         <motion.div style={{ y: contentY }} className="lg:col-span-8 flex flex-col gap-6">
           <div className="w-full bg-[#333333] rounded-[24px] p-6 sm:p-8 md:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)]">
             <p className="text-white text-sm sm:text-base md:text-lg font-normal leading-relaxed text-justify">
-              Hello!, I am <span className="font-bold underline">Narayana Mahendra</span>, with a strong interest in Front-End Development and a passion for Web Design. I believe that an appealing visual design must always be backed by a solid technical foundation. That is why I am always enthusiastic about blending creative layouts with programming logic to bring digital interfaces to life. The ultimate goal of every project I work on is to deliver web products that are not only pleasing to the eye but also highly practical and intuitive to use.
+              Hello!, I am <span className="font-bold">Narayana Mahendra</span>, with a strong interest in Front-End Development and a passion for Web Design. I believe that an appealing visual design must always be backed by a solid technical foundation. That is why I am always enthusiastic about blending creative layouts with programming logic to bring digital interfaces to life. The ultimate goal of every project I work on is to deliver web products that are not only pleasing to the eye but also highly practical and intuitive to use.
             </p>
           </div>
 
