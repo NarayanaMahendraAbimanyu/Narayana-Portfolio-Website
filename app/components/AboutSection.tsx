@@ -89,7 +89,7 @@ export default function AboutSection() {
 
               <div className="flex flex-col gap-4 sm:gap-6">
                 <div className="flex flex-col xl:flex-row xl:items-center gap-1 sm:gap-3 xl:gap-5">
-                  <div className="bg-black text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
+                  <div className="bg-[#2A2A2A] text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
                     2021 – 2024
                   </div>
                   <span className="text-black font-bold text-xs sm:text-lg">
@@ -98,7 +98,7 @@ export default function AboutSection() {
                 </div>
 
                 <div className="flex flex-col xl:flex-row xl:items-center gap-1 sm:gap-3 xl:gap-5">
-                  <div className="bg-black text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
+                  <div className="bg-[#2A2A2A] text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
                     2024 – Now
                   </div>
                   <span className="text-black font-bold text-xs sm:text-lg">
