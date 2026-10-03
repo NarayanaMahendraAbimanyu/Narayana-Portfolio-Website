@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, Variants, AnimatePresence } from 'framer-motion';
 import { HiArrowUpRight } from 'react-icons/hi2';
 import { IoClose, IoExpandOutline, IoContractOutline } from 'react-icons/io5';
@@ -123,251 +123,387 @@ const certificatesData: PortfolioItem[] = [
   },
 ];
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const listVariants: Variants = {
+  hidden: {},
   visible: {
-    opacity: 1,
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.05,
+      staggerChildren: 0.07,
     },
   },
 };
 
-const cardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 50,
-    scale: 0.96,
-    filter: 'blur(4px)',
-  },
+const rowVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1],
-    },
+    transition: { duration: 0.7, ease: EASE },
   },
 };
 
+const getHost = (item: PortfolioItem): string => {
+  if (!item.link) return 'certificate';
+  try {
+    return new URL(item.link).host;
+  } catch {
+    return item.link;
+  }
+};
+
+const getSubtext = (item: PortfolioItem): string =>
+  item.techStack.length > 0
+    ? item.techStack.map((tech) => tech.name).join(', ')
+    : item.description;
+
+function WindowDot({
+  color,
+  label,
+  onClick,
+  disabled = false,
+  children,
+}: {
+  color: string;
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+      title={label}
+      className="group/dot flex h-6 w-6 items-center justify-center disabled:cursor-default"
+    >
+      <span
+        className={`flex h-3.5 w-3.5 items-center justify-center rounded-full text-[10px] text-black/70 transition-opacity duration-200 ${
+          disabled ? 'opacity-40' : ''
+        }`}
+        style={{ backgroundColor: color }}
+      >
+        <span className="opacity-100 transition-opacity duration-200 sm:opacity-0 sm:group-hover/dot:opacity-100">
+          {children}
+        </span>
+      </span>
+    </button>
+  );
+}
+
+function BrowserFrame({ item }: { item: PortfolioItem }) {
+  return (
+    <div className="overflow-hidden rounded-xl border border-white/10 bg-[#222222]">
+      <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3">
+        <div className="flex gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
+        </div>
+        <div className="min-w-0 flex-1 truncate rounded-md bg-white/5 px-3 py-1 text-center text-xs text-white/50">
+          {getHost(item)}
+        </div>
+      </div>
+      <div className="relative aspect-[16/10] bg-[#1b1b1b]">
+        <img
+          src={item.image}
+          alt={item.title}
+          className="absolute inset-0 h-full w-full object-cover"
+          onError={(e) => {
+            (e.target as HTMLElement).style.display = 'none';
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function PortfolioPage() {
   const [activeTab, setActiveTab] = useState<TabType>('projects');
+  const [previewIndex, setPreviewIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [activeHoverStack, setActiveHoverStack] = useState<string | null>(null);
 
   const currentItems = activeTab === 'projects' ? projectsData : certificatesData;
+  const previewItem = currentItems[previewIndex] ?? currentItems[0];
+
+  const tabs: { id: TabType; label: string; count: number }[] = [
+    { id: 'projects', label: 'Projects', count: projectsData.length },
+    { id: 'certificates', label: 'Certificates', count: certificatesData.length },
+  ];
+
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    setPreviewIndex(0);
+  };
 
   const handleCloseModal = () => {
     setSelectedItem(null);
     setIsFullscreen(false);
   };
 
+  useEffect(() => {
+    if (!selectedItem) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedItem(null);
+        setIsFullscreen(false);
+      }
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [selectedItem]);
+
   return (
-    <div className="min-h-screen bg-[#2E2E2E] text-[#E5E5E7] flex flex-col justify-between overflow-x-hidden">
+    <div className="flex min-h-screen flex-col justify-between overflow-x-hidden bg-[#2E2E2E] text-[#E5E5E7]">
       <Navbar />
 
-      <main className="w-full pt-32 sm:pt-36 md:pt-40 pb-20 px-4 sm:px-8 md:px-16 lg:px-24 flex-grow flex flex-col items-center">
-        <div className="max-w-6xl w-full mx-auto flex flex-col items-center">
-          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 px-2">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E5E5E7] mb-3 tracking-tight">
+      <main className="w-full flex-grow pb-24 pt-20 sm:pb-32 sm:pt-24 lg:pt-28">
+        <div className="mx-auto w-full max-w-7xl px-5 sm:px-10 lg:px-16">
+          <header className="max-w-3xl">
+            <h1 className="text-5xl font-semibold leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-8xl">
               My Portfolio
             </h1>
-            <p className="text-xs sm:text-sm md:text-base font-normal text-[#E5E5E7]/70 leading-relaxed">
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[#E5E5E7]/60 sm:mt-6 sm:text-base">
               Explore my journey through projects and certifications, showcasing the practical skills and milestones I&apos;ve achieved along the way.
             </p>
+          </header>
+
+          <div className="mt-10 inline-flex rounded-full border border-white/10 bg-white/5 p-1 sm:mt-14">
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`relative rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300 sm:px-7 sm:py-2.5 sm:text-base ${
+                    isActive ? 'text-[#010102]' : 'text-white/60 hover:text-white'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="portfolio-tab-pill"
+                      transition={{ duration: 0.45, ease: EASE }}
+                      className="absolute inset-0 rounded-full bg-[#E5E5E7]"
+                    />
+                  )}
+                  <span className="relative flex items-center gap-2">
+                    {tab.label}
+                    <span className="text-xs opacity-60">{tab.count}</span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-6 mb-10 sm:mb-14">
-            <button
-              onClick={() => setActiveTab('projects')}
-              className={`rounded-full px-6 sm:px-8 py-2 sm:py-2.5 font-semibold text-sm sm:text-base transition-all duration-300 ${
-                activeTab === 'projects'
-                  ? 'bg-[#010102] text-[#E5E5E7] outline-2 outline-offset-2 outline-[#010102]'
-                  : 'bg-[#E5E5E7] text-[#010102] hover:bg-[#010102] hover:text-[#E5E5E7] hover:outline-2 hover:outline-offset-2 hover:outline-[#010102]'
-              }`}
+          <div className="mt-10 grid gap-12 sm:mt-12 lg:mt-14 lg:grid-cols-12 lg:gap-16">
+            <motion.ul
+              key={activeTab}
+              variants={listVariants}
+              initial="hidden"
+              animate="visible"
+              className="border-b border-white/10 lg:col-span-7"
             >
-              Projects
-            </button>
+              {currentItems.map((item, index) => {
+                const isActive = index === previewIndex;
+                return (
+                  <motion.li
+                    key={`${activeTab}-${item.id}`}
+                    variants={rowVariants}
+                    className="border-t border-white/10"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSelectedItem(item)}
+                      onMouseEnter={() => setPreviewIndex(index)}
+                      onFocus={() => setPreviewIndex(index)}
+                      className={`group flex w-full items-center gap-4 py-5 text-left transition-opacity duration-300 sm:gap-6 sm:py-7 ${
+                        isActive ? 'lg:opacity-100' : 'lg:opacity-40'
+                      }`}
+                    >
+                      <div className="relative aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-lg bg-[#222222] sm:w-40 lg:hidden">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="absolute inset-0 h-full w-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
 
-            <button
-              onClick={() => setActiveTab('certificates')}
-              className={`rounded-full px-6 sm:px-8 py-2 sm:py-2.5 font-semibold text-sm sm:text-base transition-all duration-300 ${
-                activeTab === 'certificates'
-                  ? 'bg-[#010102] text-[#E5E5E7] outline-2 outline-offset-2 outline-[#010102]'
-                  : 'bg-[#E5E5E7] text-[#010102] hover:bg-[#010102] hover:text-[#E5E5E7] hover:outline-2 hover:outline-offset-2 hover:outline-[#010102]'
-              }`}
-            >
-              Certificates
-            </button>
+                      <div className="min-w-0 flex-1">
+                        <h2 className="text-lg font-medium leading-snug text-white sm:text-2xl lg:text-3xl">
+                          {item.title}
+                        </h2>
+                        <p className="mt-1.5 line-clamp-1 text-xs text-white/50 sm:text-sm">
+                          {getSubtext(item)}
+                        </p>
+                      </div>
+
+                      <span
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white transition-colors duration-300 sm:h-12 sm:w-12 ${
+                          isActive
+                            ? 'lg:border-transparent lg:bg-[#E5E5E7] lg:text-[#010102]'
+                            : ''
+                        }`}
+                      >
+                        <HiArrowUpRight className="text-lg transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:text-xl" />
+                      </span>
+                    </button>
+                  </motion.li>
+                );
+              })}
+            </motion.ul>
+
+            <aside className="hidden lg:col-span-5 lg:block">
+              <div className="sticky top-24">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`${activeTab}-${previewIndex}`}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                  >
+                    <BrowserFrame item={previewItem} />
+                    <p className="mt-5 line-clamp-3 text-sm leading-relaxed text-white/50">
+                      {previewItem.description}
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </aside>
           </div>
-
-          <motion.div
-            key={activeTab}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 md:gap-8 w-full"
-          >
-            {currentItems.map((item) => (
-              <motion.div
-                key={item.id}
-                variants={cardVariants}
-                onClick={() => setSelectedItem(item)}
-                className="group/card relative w-full aspect-[16/10] rounded-2xl overflow-hidden cursor-pointer"
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-
-                <div className="absolute bottom-0 left-0 right-0 flex items-end justify-between gap-3 p-3 sm:p-4 md:p-5">
-                  <p className="flex-1 min-w-0 truncate text-left text-sm sm:text-base md:text-lg font-semibold text-white">
-                    {item.title}
-                  </p>
-
-                  <button className="shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#2E2E2E] flex items-center justify-center transition-transform duration-300 group-hover/card:scale-110">
-                    <HiArrowUpRight className="text-[#E5E5E7] text-lg sm:text-xl" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </main>
 
       <AnimatePresence>
         {selectedItem && (
           <motion.div
+            key="portfolio-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6 md:p-10"
+            onClick={handleCloseModal}
+            className={`fixed inset-0 z-50 flex items-end justify-center bg-black/75 backdrop-blur-sm sm:items-center ${
+              isFullscreen ? 'p-0' : 'p-0 sm:p-6 lg:p-10'
+            }`}
           >
-            <div className="absolute top-5 right-5 sm:top-8 sm:right-8 z-20 flex items-center gap-3 sm:gap-4">
-              <button
-                onClick={() => setIsFullscreen(!isFullscreen)}
-                className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-300"
-                title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-              >
-                {isFullscreen ? (
-                  <IoContractOutline className="text-xl sm:text-2xl" />
-                ) : (
-                  <IoExpandOutline className="text-xl sm:text-2xl" />
-                )}
-              </button>
-              <button
-                onClick={handleCloseModal}
-                className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors duration-300"
-                title="Close"
-              >
-                <IoClose className="text-xl sm:text-2xl" />
-              </button>
-            </div>
-
             <motion.div
-              initial={{ scale: 0.9, y: 30, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.9, y: 30, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className={`bg-[#2E2E2E] text-[#E5E5E7] transition-all duration-500 overflow-y-auto ${
+              role="dialog"
+              aria-modal="true"
+              aria-label={selectedItem.title}
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, y: 40, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.97 }}
+              transition={{ duration: 0.45, ease: EASE }}
+              className={`flex flex-col overflow-hidden border border-white/10 bg-[#292929] shadow-2xl ${
                 isFullscreen
-                  ? 'fixed inset-0 rounded-none p-6 sm:p-12 md:p-16 flex flex-col justify-center'
-                  : 'relative w-full max-w-5xl rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl max-h-[90vh]'
+                  ? 'h-full w-full rounded-none'
+                  : 'max-h-[92vh] w-full max-w-5xl rounded-t-3xl sm:rounded-2xl'
               }`}
             >
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10 items-start">
-                <div className="md:col-span-7 flex flex-col gap-6">
-                  <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden relative shadow-inner bg-[#1a1a1a]">
-                    <img
-                      src={selectedItem.image}
-                      alt={selectedItem.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLElement).style.display = 'none';
-                      }}
-                    />
-                  </div>
-
-                  {selectedItem.techStack && selectedItem.techStack.length > 0 && (
-                    <div className="flex flex-col gap-3">
-                      <h3 className="text-lg sm:text-xl font-bold text-white tracking-wide">
-                        Tech Stack
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
-                        {selectedItem.techStack.map((tech, index) => (
-                          <div
-                            key={index}
-                            className="relative flex flex-col items-center"
-                            onMouseEnter={() => setActiveHoverStack(tech.name)}
-                            onMouseLeave={() => setActiveHoverStack(null)}
-                          >
-                            <AnimatePresence>
-                              {activeHoverStack === tech.name && (
-                                <motion.div
-                                  initial={{ opacity: 0, y: 10, scale: 0.85 }}
-                                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                                  exit={{ opacity: 0, y: 8, scale: 0.85 }}
-                                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                                  className="absolute bottom-full mb-3 z-30 flex flex-col items-center pointer-events-none"
-                                >
-                                  <div className="bg-[#E5E5E7] text-[#010102] px-3.5 py-1.5 rounded-xl shadow-xl flex flex-col items-center min-w-[110px] text-center">
-                                    <span className="text-xs font-bold leading-tight">
-                                      {tech.name}
-                                    </span>
-                                    <span className="text-[10px] font-medium text-gray-600 leading-tight">
-                                      {tech.subtext}
-                                    </span>
-                                  </div>
-                                  <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#E5E5E7] -mt-[1px]" />
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-
-                            <div className="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 hover:bg-white/10 transition-all duration-300 cursor-pointer">
-                              {tech.icon}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+              <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-[#222222] px-4 py-2.5 sm:px-5 sm:py-3">
+                <div className="flex items-center gap-0.5">
+                  <WindowDot color="#FF5F56" label="Close" onClick={handleCloseModal}>
+                    <IoClose />
+                  </WindowDot>
+                  <WindowDot
+                    color="#FFBD2E"
+                    label="Exit fullscreen"
+                    onClick={() => setIsFullscreen(false)}
+                    disabled={!isFullscreen}
+                  >
+                    <IoContractOutline />
+                  </WindowDot>
+                  <WindowDot
+                    color="#27C93F"
+                    label="Enter fullscreen"
+                    onClick={() => setIsFullscreen(true)}
+                    disabled={isFullscreen}
+                  >
+                    <IoExpandOutline />
+                  </WindowDot>
                 </div>
 
-                <div className="md:col-span-5 flex flex-col gap-3 sm:gap-4">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
-                    {selectedItem.title}
-                  </h2>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-base sm:text-lg font-bold text-white">
-                      Description
-                    </span>
-                    <p className="text-sm sm:text-base font-normal text-[#E5E5E7]/80 leading-relaxed">
-                      {selectedItem.description}
-                    </p>
+                <div className="min-w-0 flex-1 truncate rounded-md bg-white/5 px-3 py-1.5 text-center text-xs text-white/50 sm:text-sm">
+                  {getHost(selectedItem)}
+                </div>
+
+                <div className="hidden w-[76px] sm:block" />
+              </div>
+
+              <div className="overflow-y-auto">
+                <div
+                  className={`grid grid-cols-1 gap-8 p-5 sm:p-8 lg:grid-cols-12 lg:gap-12 lg:p-10 ${
+                    isFullscreen ? 'mx-auto w-full max-w-7xl' : ''
+                  }`}
+                >
+                  <div className="lg:col-span-7">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[#1b1b1b]">
+                      <img
+                        src={selectedItem.image}
+                        alt={selectedItem.title}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
                   </div>
 
-                  {selectedItem.link && (
-                    <a
-                      href={selectedItem.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-[#E5E5E7] text-[#010102] font-semibold text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3 transition-transform duration-300 hover:scale-105"
-                    >
-                      <span>Visit Website</span>
-                      <HiArrowUpRight className="text-base sm:text-lg" />
-                    </a>
-                  )}
+                  <div className="flex flex-col gap-6 lg:col-span-5">
+                    <h2 className="text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+                      {selectedItem.title}
+                    </h2>
+
+                    <p className="text-sm leading-relaxed text-[#E5E5E7]/75 sm:text-base">
+                      {selectedItem.description}
+                    </p>
+
+                    {selectedItem.techStack.length > 0 && (
+                      <div className="flex flex-col gap-3">
+                        <span className="text-sm text-white/50">Built with</span>
+                        <ul className="flex flex-wrap gap-2">
+                          {selectedItem.techStack.map((tech) => (
+                            <li
+                              key={tech.name}
+                              className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 py-1.5 pl-3 pr-4 text-sm text-white/90 [&_svg]:!text-base"
+                            >
+                              {tech.icon}
+                              {tech.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {selectedItem.link && (
+                      <a
+                        href={selectedItem.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex w-fit items-center gap-2 rounded-full bg-[#E5E5E7] px-5 py-2.5 text-sm font-semibold text-[#010102] transition-transform duration-300 hover:scale-105 sm:px-6 sm:py-3 sm:text-base"
+                      >
+                        <span>Visit Website</span>
+                        <HiArrowUpRight className="text-base sm:text-lg" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             </motion.div>
