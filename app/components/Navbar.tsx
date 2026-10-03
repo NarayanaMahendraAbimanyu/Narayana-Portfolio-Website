@@ -1,237 +1,220 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  Variants,
+  useReducedMotion,
+} from "framer-motion";
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [activeSection, setActiveSection] = useState<string>("");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const reduceMotion = useReducedMotion();
+  const [contactInView, setContactInView] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const isHome = pathname === "/";
   const isPortfolio = pathname === "/portfolio";
 
+  // Keep "Contact" highlighted while the contact section is on screen.
+  useEffect(() => {
+    if (!isHome) {
+      setContactInView(false);
+      return;
+    }
+    const el = document.getElementById("contact");
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setContactInView(entry.isIntersecting),
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isHome]);
+
+  // Lock scroll and allow Escape while the mobile menu is open.
+  useEffect(() => {
+    if (!isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen]);
+
   const scrollToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setIsOpen(false);
     if (isHome) {
       e.preventDefault();
-      setActiveSection("");
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     }
-    setIsOpen(false);
   };
 
   const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    setActiveSection("contact");
+    e.preventDefault();
     setIsOpen(false);
-
     if (isHome) {
-      e.preventDefault();
-      const targetElement = document.getElementById("contact");
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
+      document.getElementById("contact")?.scrollIntoView({
+        behavior: reduceMotion ? "auto" : "smooth",
+        block: "start",
+      });
     } else {
-      e.preventDefault();
       router.push("/#contact");
     }
   };
 
   const navLinks = [
-    { title: "HOME", href: "/", number: "01", action: scrollToTop, active: isHome && activeSection !== "contact" },
-    { title: "PORTFOLIO", href: "/portfolio", number: "02", action: () => { setActiveSection(""); setIsOpen(false); }, active: isPortfolio },
-    { title: "CONTACT", href: "/#contact", number: "03", action: scrollToContact, active: activeSection === "contact" },
+    {
+      title: "Home",
+      href: "/",
+      onClick: scrollToTop,
+      active: isHome && !contactInView,
+    },
+    {
+      title: "Portfolio",
+      href: "/portfolio",
+      onClick: () => setIsOpen(false),
+      active: isPortfolio,
+    },
+    {
+      title: "Contact",
+      href: "/#contact",
+      onClick: scrollToContact,
+      active: isHome && contactInView,
+    },
   ];
 
   const menuVariants: Variants = {
-    closed: {
-      x: "100%",
-      transition: {
-        duration: 0.5,
-        ease: [0.32, 0.72, 0, 1],
-      },
-    },
+    closed: { opacity: 0, transition: { duration: 0.3 } },
     open: {
-      x: 0,
+      opacity: 1,
       transition: {
-        duration: 0.6,
-        ease: [0.76, 0, 0.24, 1],
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const linkContainerVariants: Variants = {
-    closed: {},
-    open: {
-      transition: {
-        staggerChildren: 0.03,
+        duration: 0.3,
+        staggerChildren: reduceMotion ? 0 : 0.08,
         delayChildren: 0.1,
       },
     },
   };
 
-  const letterVariants: Variants = {
-    closed: {
-      y: "100%",
-      transition: { duration: 0.4, ease: [0.76, 0, 0.24, 1] },
-    },
-    open: {
-      y: 0,
-      transition: { duration: 0.5, ease: [0.33, 1, 0.68, 1] },
-    },
-  };
-
-  const numberVariants: Variants = {
-    closed: {
-      opacity: 0,
-      y: 10,
-      transition: { duration: 0.3 },
-    },
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, delay: 0.3 },
-    },
+  const itemVariants: Variants = {
+    closed: { y: reduceMotion ? 0 : 24, opacity: 0 },
+    open: { y: 0, opacity: 1, transition: { duration: 0.7, ease } },
   };
 
   return (
     <>
       <motion.header
-        initial={{ y: 80, opacity: 0 }}
+        initial={{ y: reduceMotion ? 0 : -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-4 sm:top-6 md:top-10 left-0 right-0 z-50 w-full px-4 sm:px-6 md:px-16 lg:px-24 flex justify-center"
+        transition={{ duration: 1, ease }}
+        className="fixed top-4 sm:top-6 md:top-8 left-0 right-0 z-50 flex justify-center px-4 sm:px-6"
       >
-        <nav className="w-full max-w-2xl bg-[#2A2A2A] text-white px-4 sm:px-8 py-2.5 sm:py-3.5 rounded-lg sm:rounded-xl flex items-center justify-between shadow-xl border border-white/10 backdrop-blur-md">
+        <nav
+          aria-label="Main"
+          className="w-full max-w-2xl flex items-center justify-between rounded-full bg-[#161616]/90 py-2 pl-5 pr-2 sm:pl-7 sm:pr-2.5 text-white shadow-xl shadow-black/20 ring-1 ring-white/10 backdrop-blur-md"
+        >
           <Link
             href="/"
             onClick={scrollToTop}
-            className="flex items-center gap-2 sm:gap-3 cursor-pointer group focus:outline-none"
+            className="flex items-center gap-3 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
-            <div className="flex items-center gap-1 sm:gap-1.5">
-              <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FF5F56] inline-block transition-transform duration-300 group-hover:scale-110" />
-              <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FFBD2E] inline-block transition-transform duration-300 group-hover:scale-110" />
-              <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#27C93F] inline-block transition-transform duration-300 group-hover:scale-110" />
-            </div>
-            <span className="font-bold text-base sm:text-lg md:text-xl tracking-wider text-white transition-opacity duration-300 group-hover:opacity-80">
+            <span className="flex items-center gap-1.5" aria-hidden>
+              <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
+            </span>
+            <span className="font-['Poppins'] text-lg sm:text-xl font-bold tracking-tight">
               Narayn.
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-5 text-base">
-            <Link
-              href="/"
-              onClick={scrollToTop}
-              className={`transition-all duration-300 hover:text-white whitespace-nowrap ${
-                isHome && activeSection !== "contact"
-                  ? "font-bold text-white"
-                  : "font-normal text-white/50"
-              }`}
-            >
-              HOME
-            </Link>
+          {/* Desktop links */}
+          <ul className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <li key={link.title}>
+                <Link
+                  href={link.href}
+                  onClick={link.onClick}
+                  aria-current={link.active ? "page" : undefined}
+                  className={`relative block rounded-full px-5 py-2.5 text-sm font-medium transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-white ${
+                    link.active ? "text-white" : "text-white/55 hover:text-white"
+                  }`}
+                >
+                  {link.active && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      transition={{ duration: reduceMotion ? 0 : 0.5, ease }}
+                      className="absolute inset-0 rounded-full bg-white/10"
+                    />
+                  )}
+                  <span className="relative">{link.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-            <Link
-              href="/portfolio"
-              onClick={() => setActiveSection("")}
-              className={`transition-all duration-300 hover:text-white whitespace-nowrap ${
-                isPortfolio
-                  ? "font-bold text-white"
-                  : "font-normal text-white/50"
-              }`}
-            >
-              PORTFOLIO
-            </Link>
-
-            <a
-              href="/#contact"
-              onClick={scrollToContact}
-              className={`transition-all duration-300 hover:text-white whitespace-nowrap uppercase cursor-pointer ${
-                activeSection === "contact"
-                  ? "font-bold text-white"
-                  : "font-normal text-white/50"
-              }`}
-            >
-              CONTACT
-            </a>
-          </div>
-
-          <div className="flex md:hidden items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-xs tracking-widest uppercase flex items-center gap-1.5 transition-colors duration-300 focus:outline-none"
-              aria-label="Toggle Menu"
-            >
-              <span>{isOpen ? "CLOSE" : "MENU"}</span>
-              <motion.span
-                animate={{ rotate: isOpen ? 45 : 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="inline-block text-sm leading-none"
-              >
-                +
-              </motion.span>
-            </button>
-          </div>
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setIsOpen((v) => !v)}
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+            className="md:hidden flex items-center gap-2 rounded-full bg-white/10 px-5 py-2.5 text-sm font-medium transition-colors duration-300 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-white"
+          >
+            {isOpen ? "Close" : "Menu"}
+          </button>
         </nav>
       </motion.header>
 
+      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-menu"
             variants={menuVariants}
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-0 z-40 bg-[#1A1A1A] text-white flex flex-col justify-start p-6 sm:p-10 pt-28 sm:pt-32 md:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-between bg-[#161616] px-6 sm:px-10 pt-32 pb-10 text-white md:hidden"
           >
-            <div className="flex flex-col gap-6 sm:gap-8 mt-4">
+            <ul>
               {navLinks.map((link) => (
-                <div key={link.title} className="border-b border-white/10 pb-4">
+                <motion.li
+                  key={link.title}
+                  variants={itemVariants}
+                  className="border-b border-white/10 first:border-t"
+                >
                   <Link
                     href={link.href}
-                    onClick={link.action}
-                    className="flex items-baseline justify-between group"
+                    onClick={link.onClick}
+                    aria-current={link.active ? "page" : undefined}
+                    className={`block py-5 font-['Poppins'] text-4xl sm:text-5xl font-semibold tracking-tight transition-colors duration-300 ${
+                      link.active ? "text-white" : "text-white/40 active:text-white"
+                    }`}
                   >
-                    <motion.div
-                      variants={linkContainerVariants}
-                      className="overflow-hidden flex"
-                    >
-                      {link.title.split("").map((char, index) => (
-                        <span key={index} className="overflow-hidden inline-block">
-                          <motion.span
-                            variants={letterVariants}
-                            className={`inline-block text-3xl sm:text-4xl font-extrabold tracking-tight transition-colors duration-300 ${
-                              link.active
-                                ? "text-white"
-                                : "text-white/40 group-hover:text-white"
-                            }`}
-                          >
-                            {char === " " ? "\u00A0" : char}
-                          </motion.span>
-                        </span>
-                      ))}
-                    </motion.div>
-
-                    <motion.span
-                      variants={numberVariants}
-                      className="text-xs text-white/40 font-mono"
-                    >
-                      {link.number}
-                    </motion.span>
+                    {link.title}
                   </Link>
-                </div>
+                </motion.li>
               ))}
-            </div>
+            </ul>
+
+            <motion.a
+              variants={itemVariants}
+              href="mailto:narayanamahendraabimanyu@gmail.com"
+              className="break-all text-sm text-white/55 transition-colors duration-300 hover:text-white"
+            >
+              narayanamahendraabimanyu@gmail.com
+            </motion.a>
           </motion.div>
         )}
       </AnimatePresence>

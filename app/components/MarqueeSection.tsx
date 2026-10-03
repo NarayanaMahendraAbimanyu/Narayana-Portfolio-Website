@@ -83,7 +83,7 @@ export default function MarqueeSection() {
           x={reduceMotion ? 0 : topX}
         />
         <MarqueeRow
-          label="Web Designer"
+          label="Beginner Web Designer"
           weightClass="font-light"
           x={reduceMotion ? 0 : bottomX}
         />

@@ -63,7 +63,7 @@ export default function HeroSection() {
             variants={fade}
             className="mt-8 sm:mt-10 text-xl sm:text-2xl font-medium tracking-tight"
           >
-            Front-end developer and web designer.
+            Front-end developer and Beginner web designer.
           </motion.p>
           <motion.p
             variants={fade}
