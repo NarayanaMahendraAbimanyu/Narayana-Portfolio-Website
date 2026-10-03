@@ -50,7 +50,7 @@ export default function PrincipalsSection() {
   const total = words.length + 2;
 
   return (
-    <section className="relative z-10 flex w-full flex-col items-center justify-center overflow-hidden bg-[#E5E5E7] px-5 py-16 pb-16 sm:px-10 sm:py-20 sm:pb-20 md:min-h-screen md:pb-40 lg:min-h-screen lg:px-16 lg:pb-80">
+    <section className="relative z-10 flex w-full flex-col items-center justify-center overflow-hidden bg-[#E5E5E7] px-5 py-16 pb-16 sm:px-10 sm:py-20 sm:pb-20 md:min-h-screen md:pb-40 lg:min-h-screen lg:px-16 lg:pb-20">
       <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-14">
         <h2 className="text-2xl font-semibold tracking-tight text-[#2A2A2A] sm:text-3xl lg:col-span-4 lg:pt-2">
           My Principals
