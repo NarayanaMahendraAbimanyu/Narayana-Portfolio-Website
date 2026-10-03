@@ -115,11 +115,9 @@ export default function HeroSection() {
             ))}
           </motion.ul>
         </div>
-
-        {/* Photo */}
         <motion.figure
           variants={fade}
-          className="lg:col-span-5 w-full max-w-[320px] sm:max-w-[360px] lg:max-w-[380px] lg:justify-self-end"
+          className="lg:col-span-5 w-full max-w-[320px] sm:max-w-[360px] lg:max-w-[380px] mx-auto lg:mx-0 lg:justify-self-end"
         >
           <div className="relative w-full aspect-[4/5] overflow-hidden rounded-lg bg-[#222222]">
             <Image
@@ -131,7 +129,7 @@ export default function HeroSection() {
               className="object-cover object-center"
             />
           </div>
-          <figcaption className="mt-4 text-sm text-[#010102]/55">
+          <figcaption className="mt-4 text-sm text-center lg:text-left text-[#010102]/55">
             East Java, Indonesia
           </figcaption>
         </motion.figure>
