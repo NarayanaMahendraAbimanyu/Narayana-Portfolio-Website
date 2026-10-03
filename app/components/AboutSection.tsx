@@ -1,11 +1,39 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 
+const PHOTO_SRC = "/fotonryna-about.png";
+
+const education = [
+  { school: "SMK Telkom Sidoarjo", period: "2024 – Now" },
+  { school: "SMP Negeri 2 Gedangan", period: "2021 – 2024" },
+];
+
 export default function AboutSection() {
   const containerRef = useRef<HTMLElement>(null);
+  const [stickyTop, setStickyTop] = useState<number>(0);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+
+    const updateStickyTop = () => {
+      setStickyTop(Math.min(0, window.innerHeight - element.offsetHeight));
+    };
+
+    updateStickyTop();
+
+    const observer = new ResizeObserver(updateStickyTop);
+    observer.observe(element);
+    window.addEventListener("resize", updateStickyTop);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateStickyTop);
+    };
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -18,97 +46,101 @@ export default function AboutSection() {
     restDelta: 0.001,
   });
 
-  const imageY = useTransform(smoothProgress, [0, 0.5, 1], [100, 0, -100]);
-  const contentY = useTransform(smoothProgress, [0, 0.5, 1], [150, 0, -150]);
-  const headerY = useTransform(smoothProgress, [0, 0.5, 1], [-50, 0, 50]);
+  const imageY = useTransform(smoothProgress, [0, 0.5, 1], [30, 0, -30]);
+  const contentY = useTransform(smoothProgress, [0, 0.5, 1], [40, 0, -40]);
 
   return (
     <section
       ref={containerRef}
       id="about"
-      className="relative md:sticky md:top-0 w-full min-h-[auto] md:min-h-screen py-32 md:py-1 px-4 sm:px-8 md:px-16 lg:px-24 flex flex-col items-center justify-center bg-[#E5E5E7] overflow-hidden"
+      style={{ "--about-top": `${stickyTop}px` } as React.CSSProperties}
+      className="relative flex w-full items-center justify-center overflow-hidden bg-[#E5E5E7] px-5 py-24 sm:px-10 md:sticky md:top-[var(--about-top)] md:min-h-screen md:pb-28 md:pt-16 lg:px-16"
     >
-      <motion.div style={{ y: headerY }} className="flex flex-col items-center justify-center mb-10 md:mb-6 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold text-black mb-1">
-          About Me
-        </h2>
-        <p className="text-lg md:text-xl font-normal text-gray-700">
-          Getting to know me better
-        </p>
-      </motion.div>
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="mb-10 sm:mb-12">
+          <h2 className="text-4xl font-semibold tracking-tight text-[#2A2A2A] sm:text-5xl lg:text-6xl">
+            About Me
+          </h2>
+          <p className="mt-2 text-base text-[#2A2A2A]/60 sm:text-lg">
+            Getting to know me better
+          </p>
+        </header>
 
-      <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <motion.div
-          style={{ y: imageY }}
-          className="lg:col-span-4 w-full h-full"
-        >
-          <div className="bg-[#2A2A2A] border-2 border-[#2A2A2A] rounded-3xl p-2 w-full h-full flex flex-col shadow-[0_4px_15px_rgba(0,0,0,0.08)]">
-            <div className="relative w-full h-[400px] sm:h-[500px] md:h-[360px] lg:h-full border-[3px] border-white rounded-2xl overflow-hidden bg-black">
-              <Image
-                src="/fotonryna-about.png"
-                alt="Narayana Mahendra"
-                fill
-                className="object-cover object-center"
-                priority
-              />
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
+          <motion.div style={{ y: imageY }} className="lg:col-span-5">
+            <div className="flex h-full flex-col overflow-hidden rounded-2xl bg-[#2A2A2A]">
+              <div className="flex shrink-0 items-center gap-3 px-4 py-3">
+                <div className="flex gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
+                </div>
+                <span className="truncate text-xs text-white/50">
+                  Narayana Mahendra
+                </span>
+              </div>
+
+              <div className="relative aspect-[4/5] w-full sm:aspect-[16/10] lg:aspect-auto lg:min-h-[420px] lg:flex-1">
+                <Image
+                  src={PHOTO_SRC}
+                  alt="Narayana Mahendra"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover object-center"
+                  priority
+                />
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        <motion.div style={{ y: contentY }} className="lg:col-span-8 flex flex-col gap-6">
-          <div className="w-full bg-[#333333] rounded-[24px] p-6 sm:p-8 md:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)]">
-            <p className="text-white text-sm sm:text-base md:text-lg font-normal leading-relaxed text-justify">
-              Hello!, I am <span className="font-bold">Narayana Mahendra</span>, with a strong interest in Front-End Development and a passion for Web Design. I believe that an appealing visual design must always be backed by a solid technical foundation. That is why I am always enthusiastic about blending creative layouts with programming logic to bring digital interfaces to life. The ultimate goal of every project I work on is to deliver web products that are not only pleasing to the eye but also highly practical and intuitive to use.
+          <motion.div
+            style={{ y: contentY }}
+            className="flex flex-col justify-between gap-10 lg:col-span-7"
+          >
+            <p className="text-base leading-relaxed text-[#2A2A2A] sm:text-lg lg:text-xl">
+              Hello!, I am <span className="font-semibold">Narayana Mahendra</span>, with a strong interest in Front-End Development and a passion for Web Design. I believe that an appealing visual design must always be backed by a solid technical foundation. That is why I am always enthusiastic about blending creative layouts with programming logic to bring digital interfaces to life. The ultimate goal of every project I work on is to deliver web products that are not only pleasing to the eye but also highly practical and intuitive to use.
             </p>
-          </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-6 h-full">
-            <div className="w-full bg-[#333333] rounded-[24px] p-4 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col justify-between h-full">
-              <div>
-                <h3 className="text-lg sm:text-2xl font-bold text-white mb-2">Stay in</h3>
-                <p className="text-white text-sm sm:text-xl font-semibold w-full sm:w-3/4">
-                  Sidoarjo, East Java, Indonesia.
-                </p>
+            <dl className="border-b border-[#2A2A2A]/15">
+              <div className="grid grid-cols-[6rem_1fr] gap-4 border-t border-[#2A2A2A]/15 py-4 sm:grid-cols-[8rem_1fr] sm:py-5">
+                <dt className="text-sm text-[#2A2A2A]/60">Based in</dt>
+                <dd className="text-base font-medium text-[#2A2A2A] sm:text-lg">
+                  Sidoarjo, East Java, Indonesia
+                </dd>
               </div>
 
-              <div className="mt-4 sm:mt-8">
-                <div className="w-full h-[2px] bg-[#E5E5E7] mb-3 sm:mb-5"></div>
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#00FF00] animate-pulse shrink-0"></div>
-                  <span className="text-white font-semibold text-xs sm:text-lg">
-                    Open for new project
-                  </span>
-                </div>
+              <div className="grid grid-cols-[6rem_1fr] gap-4 border-t border-[#2A2A2A]/15 py-4 sm:grid-cols-[8rem_1fr] sm:py-5">
+                <dt className="text-sm text-[#2A2A2A]/60">Education</dt>
+                <dd className="flex flex-col gap-3">
+                  {education.map((item) => (
+                    <div
+                      key={item.school}
+                      className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5"
+                    >
+                      <span className="text-base font-medium text-[#2A2A2A] sm:text-lg">
+                        {item.school}
+                      </span>
+                      <span className="text-sm tabular-nums text-[#2A2A2A]/60">
+                        {item.period}
+                      </span>
+                    </div>
+                  ))}
+                </dd>
               </div>
-            </div>
 
-            <div className="w-full bg-[#C7C7C7] rounded-[24px] p-4 sm:p-8 shadow-[0_4px_15px_rgba(0,0,0,0.08)] flex flex-col h-full">
-              <h3 className="text-lg sm:text-3xl font-bold text-black mb-4 sm:mb-6">
-                Education
-              </h3>
-
-              <div className="flex flex-col gap-4 sm:gap-6">
-                <div className="flex flex-col xl:flex-row xl:items-center gap-1 sm:gap-3 xl:gap-5">
-                  <div className="bg-[#2A2A2A] text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
-                    2021 – 2024
-                  </div>
-                  <span className="text-black font-bold text-xs sm:text-lg">
-                    SMP Negeri 2 Gedangan
+              <div className="grid grid-cols-[6rem_1fr] gap-4 border-t border-[#2A2A2A]/15 py-4 sm:grid-cols-[8rem_1fr] sm:py-5">
+                <dt className="text-sm text-[#2A2A2A]/60">Status</dt>
+                <dd className="flex items-center gap-3 text-base font-medium text-[#2A2A2A] sm:text-lg">
+                  <span className="relative flex h-2.5 w-2.5 shrink-0">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#27C93F] opacity-60" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
                   </span>
-                </div>
-
-                <div className="flex flex-col xl:flex-row xl:items-center gap-1 sm:gap-3 xl:gap-5">
-                  <div className="bg-[#2A2A2A] text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded text-xs sm:text-base font-bold w-fit whitespace-nowrap">
-                    2024 – Now
-                  </div>
-                  <span className="text-black font-bold text-xs sm:text-lg">
-                    SMK Telkom Sidoarjo
-                  </span>
-                </div>
+                  Open for new project
+                </dd>
               </div>
-            </div>
-          </div>
-        </motion.div>
+            </dl>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
