@@ -1,22 +1,42 @@
 "use client";
 
 import React from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
 
 export default function ScrollProgress() {
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
 
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
+  const smooth = useSpring(scrollYProgress, {
+    stiffness: 120,
     damping: 30,
     restDelta: 0.001,
   });
 
+  const progress = reduceMotion ? scrollYProgress : smooth;
+  const clipPath = useTransform(
+    progress,
+    (v) => `inset(0 ${(1 - Math.min(Math.max(v, 0), 1)) * 100}% 0 0)`
+  );
+
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] w-full pointer-events-none">
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px]"
+    >
       <motion.div
-        style={{ scaleX }}
-        className="absolute top-0 left-0 right-0 h-[5px] bg-gradient-to-r from-[#FF5F56] via-[#FFBD2E] to-[#27C93F] origin-left"
+        style={{
+          clipPath,
+          background:
+            "linear-gradient(to right, #FF5F56 0 33.333%, #FFBD2E 33.333% 66.666%, #27C93F 66.666% 100%)",
+        }}
+        className="h-full w-full"
       />
     </div>
   );

@@ -44,7 +44,6 @@ export default function HeroSection() {
         animate="visible"
         className="mx-auto w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-12 items-center"
       >
-        {/* Text */}
         <div className="lg:col-span-7">
           <h1 className="font-['Poppins'] font-semibold tracking-tight leading-[0.95] text-6xl sm:text-7xl lg:text-8xl">
             <span className="block overflow-hidden pb-[0.08em]">
@@ -54,7 +53,7 @@ export default function HeroSection() {
             </span>
             <span className="block overflow-hidden pb-[0.08em]">
               <motion.span variants={rise} className="block">
-                Mahendra
+                Mahendra A.
               </motion.span>
             </span>
           </h1>
