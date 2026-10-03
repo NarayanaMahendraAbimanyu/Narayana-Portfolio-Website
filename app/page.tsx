@@ -6,7 +6,6 @@ import PrincipalsSection from "./components/PrincipalsSection";
 import ToolsSection from "./components/ToolsSection";
 import PortfolioSection from "./components/PortfolioSection";
 import ContactSection from "./components/ContactSection";
-import FooterSection from "./components/FooterSection";
 
 export default function Home() {
   return (
@@ -21,7 +20,6 @@ export default function Home() {
       </div>
       <PortfolioSection />
       <ContactSection />
-      <FooterSection />
     </main>
   );
 }

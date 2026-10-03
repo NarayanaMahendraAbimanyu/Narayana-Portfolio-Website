@@ -9,7 +9,6 @@ import { RiTailwindCssFill } from 'react-icons/ri';
 import { SiNextdotjs, SiTypescript, SiFramer } from 'react-icons/si';
 import { FaFigma } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
-import FooterSection from '../components/FooterSection';
 
 type TabType = 'projects' | 'certificates';
 
@@ -268,7 +267,7 @@ export default function PortfolioPage() {
     <div className="flex min-h-screen flex-col justify-between overflow-x-hidden bg-[#2E2E2E] text-[#E5E5E7]">
       <Navbar />
 
-      <main className="w-full flex-grow pb-24 pt-20 sm:pb-32 sm:pt-24 lg:pt-28">
+      <main className="w-full flex-grow pb-24 pt-20 sm:pb-32 sm:pt-24 lg:pt-32">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-10 lg:px-16">
           <header className="max-w-3xl">
             <h1 className="text-5xl font-semibold leading-[0.95] tracking-tight text-white sm:text-7xl lg:text-8xl">
@@ -510,8 +509,6 @@ export default function PortfolioPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <FooterSection />
     </div>
   );
 }
